@@ -1,6 +1,6 @@
 <template>
-  <v-app id="inspire">
-        <v-navigation-drawer v-model="drawer">
+<v-app>
+        <v-navigation-drawer app v-model="drawer">
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
@@ -70,22 +70,26 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar  class="bandera" app color="deep-purple lighten-1
+    <v-app-bar app class="bandera" color="deep-purple lighten-1
 " dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
        
-      <v-toolbar-title ><v-icon>mdi-school</v-icon> MyCol</v-toolbar-title>
+      <v-toolbar-title><v-icon>mdi-school</v-icon> MyCol</v-toolbar-title>
     </v-app-bar>
 
-    <v-main>
-      <!--  -->
-    </v-main>
-  </v-app>
+<v-main>
+  <router-view>
+  </router-view>
+</v-main>
+    
+</v-app>
 </template>
 
 <script>
   export default {
-    data: () => ({ drawer: null }),
+    data: () => ({ 
+      drawer: null,
+      }),    
   }
 </script>
 

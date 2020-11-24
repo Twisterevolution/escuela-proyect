@@ -1,27 +1,13 @@
 <template>
-<v-layout justify-center>
-     <v-img
-      class="bg-imagen"
-      height=""
-      src="../assets/presente.jpg"
-    ></v-img>
+<v-container>
+<v-row justify-center class="zz">
 
     
 <v-card
-    
-    :loading="loading"
-    class="mx-auto my-12"
+    class="mx-auto my-12  xx"
     max-width="374"
     elevation="10"
   >
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
-
     <v-img
       class="avatar"
       height="150"
@@ -85,7 +71,8 @@
     </v-card-actions>
   </v-card>
 
-</v-layout>
+</v-row>
+</v-container>
 </template>
 
 <script>
@@ -98,6 +85,17 @@ export default {
 </script>
 
 <style >
+
+.zz{
+    background-image: url('../assets/presente.jpg');
+}
+.zz:before{
+
+     -webkit-filter: brightness(60%);
+        filter: brightness(60%);
+        opacity: 0.5;
+        filter: blur(6px);
+}
     .bg-imagen{
         position: absolute;
         height: 100vh;
@@ -107,6 +105,7 @@ export default {
         opacity: 0.5;
         filter: blur(6px);
     }
+  
     .avatar{
         border-radius: 50%;
         bottom: 10px;
