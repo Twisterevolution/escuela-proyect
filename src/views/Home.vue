@@ -70,30 +70,36 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app class="bandera" color="deep-purple lighten-1
+    <v-app-bar dense app class="bandera" color="deep-purple lighten-1
 " dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
        
       <v-toolbar-title><v-icon>mdi-school</v-icon> MyCol</v-toolbar-title>
     </v-app-bar>
 
-<v-main>
-  <router-view>
-  </router-view>
+<v-main class="pt-2 pt-sm-2 pt-xs-2 pt-md-0 pt-lg-0 pt-xl-0   pl-2 pl-sm-2 pl-xs-2 pl-md-2 pl-lg-2 pl-xl-2">
+  <panel></panel>
 </v-main>
     
 </v-app>
 </template>
 
 <script>
+import panel from './PrincipalPanel'
   export default {
+    components:{
+      panel
+    },
     data: () => ({ 
-      drawer: null,
+      drawer: false,
       }),    
   }
 </script>
 
 <style >
+*{
+  /* border: 1px solid; */
+}
   .bandera{
   position: relative;
   overflow: hidden;

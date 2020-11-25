@@ -21,18 +21,15 @@
         <form>
             <v-text-field
             outlined
-            v-model="name"
-            :error-messages="nameErrors"
             :counter="10"
             label="Nombre Usuario"
             required
-            @input="$v.name.$touch()"
-            @blur="$v.name.$touch()"
+           
             ></v-text-field>
             <v-text-field
             outlined
-            v-model="email"
-            :error-messages="emailErrors"
+           
+           
             label="Contraseña"
             required
             @input="$v.email.$touch()"
@@ -42,7 +39,7 @@
             <v-btn
             to="home"
             class="mr-4"
-            @click="submit"
+          
             color="success"
             >
             ENTRAR
@@ -58,7 +55,6 @@
          <v-btn
         color="deep-purple lighten-2"
         text
-        @click="reserve"
       >
         RECUPERAR CONTRASEÑA
       </v-btn>
