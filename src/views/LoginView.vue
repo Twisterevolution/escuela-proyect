@@ -37,7 +37,7 @@
             ></v-text-field>
 
             <v-btn
-            to="home"
+            to="home/panelcontrol"
             class="mr-4"
           
             color="success"

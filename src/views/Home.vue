@@ -78,7 +78,7 @@
     </v-app-bar>
 
 <v-main class="pt-2 pt-sm-2 pt-xs-2 pt-md-0 pt-lg-0 pt-xl-0   pl-2 pl-sm-2 pl-xs-2 pl-md-2 pl-lg-2 pl-xl-2">
-  <panel></panel>
+  <router-view></router-view>
 </v-main>
     
 </v-app>
@@ -92,7 +92,8 @@ import panel from './PrincipalPanel'
     },
     data: () => ({ 
       drawer: false,
-      }),    
+      }),
+    
   }
 </script>
 

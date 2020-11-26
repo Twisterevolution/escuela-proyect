@@ -14,7 +14,45 @@ const routes = [
   {
     path: "/home",
     name: "Home",
-    component: Home
+    component: Home,
+    children:[
+      {path: "panelcontrol",
+      name: "PanelControl",
+      component: () =>
+      import(/* webpackChunkName: "about" */ "../views/PrincipalPanel.vue")
+      },
+      {path: "about",
+      name: "About",
+      component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue")
+      }
+      ,
+      {path: "administracion",
+      name: "Administracion",
+      component: () =>
+      import(/* webpackChunkName: "administracion" */ "../views/AdminView.vue"),
+      children:[
+        {
+          path: "admroles",
+          name:"roles",
+          component:()=>
+          import(/* webpackChunkName: "admroles" */ "../components/admroles.vue")
+        },
+        {
+          path: "admusuarios",
+          name:"usuarios",
+          component:()=>
+          import(/* webpackChunkName: "admusuarios" */ "../components/admusuarios.vue")
+        },
+        {
+          path: "admasignaturas",
+          name:"asignaturas",
+          component:()=>
+          import(/* webpackChunkName: "tablaAdmin" */ "../components/tablaAdmin.vue")
+        },
+      ]
+      }
+    ]
   },
   {
     path: "/about",
