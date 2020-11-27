@@ -2,17 +2,30 @@
   <v-data-table
     :headers="headers"
     :items="items"
+    :search="search"
     sort-by="calories"
     class="elevation-4"
+    
   >
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title>ASIGNATURAS</v-toolbar-title>
+        <v-toolbar-title>ASIGNATURAS
+            
+        </v-toolbar-title>
         
         <v-spacer></v-spacer>
+        <v-text-field
+            class="mr-10"
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+         ></v-text-field>
         <v-dialog
+          persistent
           v-model="dialog"
           max-width="500px"
         >
@@ -37,54 +50,41 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
+                    md="12"
                   >
                     <v-text-field
-                      v-model="editedItem.name"
-                      label="Dessert name"
+                    dense
+                      outlined
+                      v-model="editedItem.nombre"
+                      label="NOMBRE ASIGNATURA"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                    md="12"
+                  >
+                    <v-text-field
+                    dense
+                      outlined
+                      v-model="editedItem.nivel_asoc"
+                      label="NIVEL-ASSOCIADO"
                     ></v-text-field>
                   </v-col>
                   <v-col
                     cols="12"
                     sm="6"
-                    md="4"
+                    md="6"
                   >
                     <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
+                      dense
+                      outlined
+                      v-model="editedItem.codigo"
+                      label="CODIGO-MINEDUC"
                     ></v-text-field>
                   </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
-                  </v-col>
+                 
                 </v-row>
               </v-container>
             </v-card-text>
@@ -152,6 +152,7 @@ export default {
     name: "tablaAdmin",
      data() {
         return {
+            search:"",
             dialog: false,
             dialogDelete: false,
             headers:[
@@ -169,9 +170,9 @@ export default {
             desserts: [],
             editedIndex: -1,
             editedItem: {
-                name: '',
-                calories: 0,
-                fat: 0,
+                nombre: '',
+                nivel_asoc: '',
+                codigo: '',
                 carbs: 0,
                 protein: 0,
             },
@@ -183,6 +184,51 @@ export default {
                 protein: 0,
             },
         }
+    },
+    computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'CREAR NUEVA ASIGNATURA' : 'EDITAR ASIGNATURA'
+      },
+    },
+    methods: {
+        deleteItem (item) {
+        this.editedIndex = this.items.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
+      },
+         editItem (item) {
+        this.editedIndex = this.items.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      },
+
+      close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+
+      closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+      deleteItemConfirm () {
+        this.items.splice(this.editedIndex, 1)
+        this.closeDelete()
+      },
+      save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.items[this.editedIndex], this.editedItem)
+        } else {
+          this.items.push(this.editedItem)
+        }
+        this.close()
+      },
     },
 }
 </script>
