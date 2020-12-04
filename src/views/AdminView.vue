@@ -11,7 +11,7 @@
                     <li><router-link :to="{name:'roles'}">administracion de Roles</router-link></li>
                     <li><router-link :to="{name:'usuarios'}">administracion de usuarios</router-link></li>
                     <li><router-link :to="{name:'asignaturas'}">administracion de asignaturas</router-link></li>
-                    <li>administracion de Cursos</li>
+                    <li><router-link :to="{name:'cursos'}">administracion de cursos</router-link></li>
                     <li>administracion de Niveles</li>
                 </ul>
             </v-col>

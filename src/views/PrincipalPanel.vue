@@ -36,7 +36,7 @@ export default {
 				{ name: "ALUMNOS", ruta: "about" },
 				{ name: "PROFESORES", ruta: "about" },
 				{ name: "LIBRO DE CLASES", ruta: "about" },
-				{ name: "CURSOS", ruta: "about" },
+				{ name: "MIS CURSOS", ruta: "cursos" },
 				{ name: "ASIGNATURAS", ruta: "about" },
 				{ name: "ADMINISTRACION", ruta: "administracion" },
 			],
