@@ -1,8 +1,7 @@
 <template>
 	<v-container>
-		<v-row justify="center">
-			
-            <v-col class="d-flex" cols="2">
+		<v-row justify="space-around">
+            <v-col  >
 				<v-select
 					class="mx-2"
 					outlined
@@ -14,7 +13,7 @@
                     @input="activarBoton"
 				></v-select>
             </v-col>
-            <v-col class="d-flex" cols="2">
+            <v-col  >
 				<v-select
 					class="mx-2"
 					outlined
@@ -27,21 +26,38 @@
 				></v-select>
             </v-col>
             
-            <v-col class="d-flex" cols="2">
-				<v-btn color="primary" :disabled="btnactive">
+            <v-col  >
+				<v-btn color="primary" :disabled="btnactive" block>
 					<v-icon class="mx-2">mdi-format-list-checkbox</v-icon>
 					ASISTENCIA
 				</v-btn>
 			</v-col>
-            <v-col class="d-flex" cols="2">
-				<v-btn color="primary" @click="modal1=true" :disabled="btnactive">
+            <v-col  >
+				<v-btn color="primary" @click="modal1=true" :disabled="btnactive" block>
 					<v-icon class="mx-2">mdi-briefcase-search-outline</v-icon>
-					CREAR NUEVA PRUEBA
+					FIJAR PRUEBA
+				</v-btn>
+			</v-col>
+
+             <v-col  >
+				<v-btn color="primary" @click="modal2=true" :disabled="btnactive" block>
+					<v-icon class="mx-2">mdi-spellcheck</v-icon>
+					PONER NOTAS
 				</v-btn>
 			</v-col>
            
             
 		</v-row>
+        <v-row>
+            <v-col>
+                <v-card color="primary" dark elevation="20" v-if="showInfo" >
+                    <v-card-title primary-title >
+                      <span>CURSO: </span>{{curso}} <v-spacer></v-spacer> <span>Alumnos:</span>24 <v-spacer></v-spacer><span>Profesor Jefe:</span>Luis Perez de arce  
+                    </v-card-title>
+                    
+                </v-card>
+            </v-col>
+        </v-row>
         <v-divider></v-divider>
         <v-row>
             <v-col cols="12">
@@ -56,6 +72,17 @@
 			<v-card>
 				<v-card-title class="headline">ESPESIFICAR NUEVA PRUEBA</v-card-title>
                 <v-card-text>
+                    <v-row>
+                        <v-text-field
+                        readonly
+                        class="mx-1"
+                        outlined
+                        name="profesor"
+                        label="PROFESOR"
+                        v-model="profesor"
+                        id="curso"
+                        ></v-text-field>  
+                    </v-row>
                     <v-row>
                         <v-text-field
                         class="mx-1"
@@ -106,12 +133,173 @@
 				<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn color="blue darken-1" text @click="modal1 = false">Cancel</v-btn>
-					<v-btn color="blue darken-1"  >GUARDAR</v-btn>
+					<v-btn color="blue darken-1" dark>GUARDAR</v-btn>
 					<v-spacer></v-spacer>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
 
+ <!-- DIASLOG PONER NOTAS -->
+        <v-dialog v-model="modal2" max-width="1290px" persistent fullscreen class="dl">
+			<v-card color="blue lighten-5" >
+                <v-container>
+                    <v-row>
+                        <v-col cols="4"> 
+                            <v-card-title class="headline"> PONER NOTA DE PRUEBA</v-card-title>                  
+                            <v-card-text>
+                                <v-text-field
+                                dense
+                                readonly
+                                class="mx-1"
+                                outlined
+                                name="profesor"
+                                label="PROFESOR"
+                                v-model="profesor"
+                                id="curso"
+                                ></v-text-field>  
+                    
+                                <v-text-field
+                                dense
+                                class="mx-1"
+                                outlined
+                                name="curso"
+                                label="CURSO"
+                                v-model="curso"
+                                id="curso"
+                                ></v-text-field>
+
+                                <v-text-field
+                                dense
+                                class="mx-1"
+                                outlined
+                                name="asignatura"
+                                label="ASIGNATURA"
+                                v-model="asignatura"
+                                id="adignatura"
+                                ></v-text-field>
+                        
+                                <v-text-field
+                                dense
+                                class="mx-1"
+                                outlined
+                                type="date"
+                                name="fechaprueba"
+                                label="fecha"
+                                id="fechaprueba"
+                                ></v-text-field>
+
+                                <v-text-field
+                                dense
+                                class="mx-1"
+                                outlined
+                                name="ponderacion"
+                                label="PONDERACION"
+                                id="ponderacion"
+                                ></v-text-field>
+                        
+                                <v-textarea
+                                height="80"
+                                class="mx-1"
+                                outlined
+                                name="detalleprueba"
+                                label="DETALLE/CONTENIDO"
+                                id="detalleprueba"
+                                ></v-textarea>    
+                            </v-card-text>
+                        </v-col>
+                        <v-col cols="4">
+                            <v-card-title primary-title>
+                                LISTA DE ALUMNOS CURSO
+                            </v-card-title>
+                            <v-card-text>
+                                <v-simple-table dark dense style="width:400px"> 
+                                    <template v-slot:default>
+                                    <thead>
+                                        <tr>
+                                        <th class="text-left">
+                                            Alumno
+                                        </th>
+                                        <th class="text-left">
+                                            NOTA
+                                        </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                        v-for="item in 10"
+                                        :key="item"
+                                        >
+                                        <td>ALUMNO{{ item }}</td>
+                                        <td style="width:200px">
+                                            <v-text-field
+                                                dense
+                                                outlined
+                                                hide-details
+                                                name="name"
+                                                label="NOTA"
+                                                id="id"
+                                            ></v-text-field>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                    </template>
+                                </v-simple-table>
+                            
+                            </v-card-text>
+
+                        </v-col>
+                        <v-col cols="4">
+                            <v-card-title primary-title>
+                                LISTA DE ALUMNOS CURSO
+                            </v-card-title>
+                            <v-card-text>
+                                <v-simple-table dark dense style="width:400px"> 
+                                    <template v-slot:default>
+                                    <thead>
+                                        <tr>
+                                        <th class="text-left">
+                                            Alumno
+                                        </th>
+                                        <th class="text-left">
+                                            NOTA
+                                        </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                        v-for="item in 10"
+                                        :key="item"
+                                        >
+                                        <td>ALUMNO{{ item }}</td>
+                                        <td style="width:200px">
+                                            <v-text-field
+                                                dense
+                                                outlined
+                                                hide-details
+                                                name="name"
+                                                label="NOTA"
+                                                id="id"
+                                            ></v-text-field>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                    </template>
+                                </v-simple-table>
+                            
+                            </v-card-text>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="modal2 = false">Cancel</v-btn>
+                                <v-btn color="blue darken-1" dark>GUARDAR</v-btn>
+                                <v-spacer></v-spacer>
+                            </v-card-actions>
+                        </v-col>
+                    </v-row>
+                </v-container>
+			</v-card>
+		</v-dialog>
 	</v-container>
 </template>
 
@@ -126,8 +314,10 @@ export default {
 		return {
             btnactive:true,
             modal1:false,
+            modal2:false,
             curso:"",
             asignatura:"",
+            profesor:"luis Guerra",
 			asignaturas: ["CASTELLANO", "MATEMATICA", "BIOLOGIA", "GRAMATICA"],
 			cursos: ["1 medio A", "2 medio A", "2 medio C", "2 basico b", "2 basico c"],
 			letras: ["A", "B", "C", "D"],
@@ -162,5 +352,30 @@ export default {
             }
         }
     },
+    computed: {
+        showInfo(){
+            if(this.curso!=="" && this.asignatura!==""){
+                return true
+            }
+        }
+    },
 };
 </script>
+
+<style scoped >
+
+
+*{
+    border: 0px solid;
+}
+    span{
+        font-weight: bolder; 
+    }
+
+
+
+
+</style>
+<style lang="sass">
+    @import 'src/sass/variables.scss'
+</style>

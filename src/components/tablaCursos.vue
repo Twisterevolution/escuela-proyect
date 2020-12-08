@@ -6,6 +6,9 @@
     :search="search"
     sort-by="calories"
     class="elevation-4"
+    :footer-props="{
+           'items-per-page-text':'alumnos por página'
+      }"
     
   >
     <template v-slot:top>
@@ -21,7 +24,7 @@
         <v-dialog
           persistent
           v-model="dialog"
-          max-width="600px"
+          max-width="650px"
         >
           <template v-slot:activator="{ on, attrs }">
             
@@ -33,37 +36,58 @@
 
             <v-card-text>
               <v-container>
-                <v-radio-group v-model="radioGroup" row>
-                  <v-radio
-                    label="POSITIVA"
-                    value="1"
-                  ></v-radio>
-                  <v-radio
-                    label="NEGATIVA"
-                    value="0"
-                  ></v-radio>
-                  <v-text-field
+                <v-row>
+                  <v-col cols="6">
+                    <v-text-field
                       dense
-                      outlined
+                      readonly
+                      filled
+                      rounded
+                      name="anotacionPor"
+                      label="PROFESOR QUE REALIZA"
+                      value="luis Guerra"
+                      id="anotacionPor"
+                    ></v-text-field>
+                  </v-col>
+                    <v-col cols="6">
+                    <v-text-field
+                      dense
+                      filled
+                      rounded
                       type="date"
                       v-model="editedItem.codigo"
                       label="FECHA"
                     ></v-text-field>
-                </v-radio-group>
-                
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="12"
-                  >
+                    </v-col>
+                    <v-col cols="6">
                     <v-text-field
-                    dense
-                      outlined
+                      dense
+                      readonly
+                      filled
+                      rounded
                       v-model="editedItem.nombre"
-                      label="NOMBRE ALUMNO"
+                      label="ALUMNO ANOTADO"
                     ></v-text-field>
                   </v-col>
+                  <v-col cols="6">
+                     <v-radio-group v-model="radioGroup" row justify-center >
+                  <v-radio
+                    color="green"
+                    label="POSITIVA"
+                    value="1"
+                  ></v-radio>
+                  <v-radio
+                  color="red"
+                    label="NEGATIVA"
+                    value="0"
+                  ></v-radio>
+                </v-radio-group>
+                  </v-col>
+                </v-row>
+                
+               
+                
+                <v-row>
                   <v-col
                     cols="12"
                     sm="12"
@@ -91,15 +115,18 @@
                 Cancel
               </v-btn>
               <v-btn
+                dark
                 color="blue darken-1"
-                
                 @click="save"
               >
                 GUARDAR
               </v-btn>
+               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
@@ -230,3 +257,20 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+ 
+  .col{
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .v-input--radio-group--row{
+    background-color: #f0f0f0;
+    border-radius: 50px;
+    margin-top: 0px;
+  }
+  .v-radio{
+    margin-bottom: 3px;
+    margin-left: 15px;
+  }
+</style>
