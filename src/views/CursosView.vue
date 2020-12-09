@@ -27,7 +27,7 @@
             </v-col>
             
             <v-col  >
-				<v-btn color="primary" :disabled="btnactive" block>
+				<v-btn color="primary" @click="modal3=true" :disabled="btnactive" block>
 					<v-icon class="mx-2">mdi-format-list-checkbox</v-icon>
 					ASISTENCIA
 				</v-btn>
@@ -144,10 +144,11 @@
 			<v-card color="blue lighten-5" >
                 <v-container>
                     <v-row>
-                        <v-col cols="4"> 
-                            <v-card-title class="headline"> PONER NOTA DE PRUEBA</v-card-title>                  
+                        <v-col cols="3"> 
+                            <v-card-title class="headline">NOTA DE PRUEBA</v-card-title>                  
                             <v-card-text>
                                 <v-text-field
+                                background-color="white"
                                 dense
                                 readonly
                                 class="mx-1"
@@ -159,6 +160,7 @@
                                 ></v-text-field>  
                     
                                 <v-text-field
+                                background-color="white"
                                 dense
                                 class="mx-1"
                                 outlined
@@ -169,6 +171,7 @@
                                 ></v-text-field>
 
                                 <v-text-field
+                                background-color="white"
                                 dense
                                 class="mx-1"
                                 outlined
@@ -179,6 +182,7 @@
                                 ></v-text-field>
                         
                                 <v-text-field
+                                background-color="white"
                                 dense
                                 class="mx-1"
                                 outlined
@@ -189,6 +193,7 @@
                                 ></v-text-field>
 
                                 <v-text-field
+                                background-color="white"
                                 dense
                                 class="mx-1"
                                 outlined
@@ -207,51 +212,8 @@
                                 ></v-textarea>    
                             </v-card-text>
                         </v-col>
-                        <v-col cols="4">
-                            <v-card-title primary-title>
-                                LISTA DE ALUMNOS CURSO
-                            </v-card-title>
-                            <v-card-text>
-                                <v-simple-table dark dense style="width:400px"> 
-                                    <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                        <th class="text-left">
-                                            Alumno
-                                        </th>
-                                        <th class="text-left">
-                                            NOTA
-                                        </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr
-                                        v-for="item in 10"
-                                        :key="item"
-                                        >
-                                        <td>ALUMNO{{ item }}</td>
-                                        <td style="width:200px">
-                                            <v-text-field
-                                                dense
-                                                outlined
-                                                hide-details
-                                                name="name"
-                                                label="NOTA"
-                                                id="id"
-                                            ></v-text-field>
-                                        </td>
-                                        </tr>
-                                    </tbody>
-                                    </template>
-                                </v-simple-table>
-                            
-                            </v-card-text>
 
-                        </v-col>
-                        <v-col cols="4">
-                            <v-card-title primary-title>
-                                LISTA DE ALUMNOS CURSO
-                            </v-card-title>
+                        <v-col cols="4" v-for="tablanota in 2" :key="tablanota">
                             <v-card-text>
                                 <v-simple-table dark dense style="width:400px"> 
                                     <template v-slot:default>
@@ -267,17 +229,17 @@
                                     </thead>
                                     <tbody>
                                         <tr
-                                        v-for="item in 10"
+                                        v-for="item in 14"
                                         :key="item"
                                         >
                                         <td>ALUMNO{{ item }}</td>
-                                        <td style="width:200px">
+                                        <td style="width:100px">
                                             <v-text-field
                                                 dense
-                                                outlined
+                                                dark
+                                                width="80"
                                                 hide-details
                                                 name="name"
-                                                label="NOTA"
                                                 id="id"
                                             ></v-text-field>
                                         </td>
@@ -285,13 +247,121 @@
                                     </tbody>
                                     </template>
                                 </v-simple-table>
-                            
                             </v-card-text>
                         </v-col>
+
                         <v-col cols="12">
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="blue darken-1" text @click="modal2 = false">Cancel</v-btn>
+                                <v-btn color="blue darken-1" dark>GUARDAR</v-btn>
+                                <v-spacer></v-spacer>
+                            </v-card-actions>
+                        </v-col>
+                    </v-row>
+                </v-container>
+			</v-card>
+		</v-dialog>
+
+<!-- DIALOG ASISTENCIA ALUMNOS ASIGNATURA -->
+        <v-dialog v-model="modal3" max-width="1290px" persistent fullscreen class="dl">
+			<v-card color="blue lighten-5" >
+                <v-container>
+                    <v-row justify="space-between">
+                        <v-col cols="2" justify="center">
+                            <h5 class="headline text-center">ASISTENCIA CURSO</h5>                   
+                        </v-col>
+                        <v-col cols="2">
+                             <v-text-field
+                                background-color="white"
+                                dense
+                                readonly
+                                class="mx-1"
+                                outlined
+                                name="profesor"
+                                label="PROFESOR"
+                                v-model="profesor"
+                                id="curso"
+                                ></v-text-field>
+                        </v-col>
+                        <v-col cols="2">
+                                <v-text-field
+                                background-color="white"
+                                dense
+                                readonly
+                                class="mx-1"
+                                outlined
+                                name="curso"
+                                label="CURSO"
+                                v-model="curso"
+                                id="curso"
+                                ></v-text-field>  
+                        </v-col>
+                        <v-col cols="2">
+                             <v-text-field
+                                background-color="white"
+                                readonly
+                                dense
+                                class="mx-1"
+                                outlined
+                                name="asignatura"
+                                label="ASIGNATURA"
+                                v-model="asignatura"
+                                id="adignatura"
+                                ></v-text-field>
+                        </v-col>
+                        <v-col cols="3">
+                             <v-text-field
+                                background-color="white"
+                                dense
+                                class="mx-1"
+                                outlined
+                                type="date"
+                                name="fechaprueba"
+                                label="fecha"
+                                id="fechaprueba"
+                                ></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="3" v-for="tabla in 4" :key="tabla">
+                            
+                                <v-simple-table dark dense style="width:400px"> 
+                                    <template v-slot:default>
+                                    <thead>
+                                        <tr>
+                                        <th class="text-left">
+                                            Alumno
+                                        </th>
+                                        <th class="text-left">
+                                            PRESENTE
+                                        </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                        v-for="item in 10"
+                                        :key="item"
+                                        >
+                                        <td>ALUMNO{{ item }}</td>
+                                        <td style="width:100px;">
+                                            <v-checkbox
+                                            v-model="value" 
+                                            value="value"
+                                            hide-details
+                                            ></v-checkbox>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                    </template>
+                                </v-simple-table>
+                            
+                        </v-col>
+                        <v-col cols="12">
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="modal3 = false">Cancel</v-btn>
                                 <v-btn color="blue darken-1" dark>GUARDAR</v-btn>
                                 <v-spacer></v-spacer>
                             </v-card-actions>
@@ -315,6 +385,7 @@ export default {
             btnactive:true,
             modal1:false,
             modal2:false,
+            modal3:false,
             curso:"",
             asignatura:"",
             profesor:"luis Guerra",
@@ -367,11 +438,15 @@ export default {
 
 *{
     border: 0px solid;
-}
-    span{
-        font-weight: bolder; 
     }
 
+span{
+    font-weight: bolder; 
+    }
+
+td .v-input--checkbox{
+    margin-top: 0px !important;
+}
 
 
 
