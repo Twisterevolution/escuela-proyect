@@ -181,16 +181,14 @@
                                 id="adignatura"
                                 ></v-text-field>
                         
-                                <v-text-field
-                                background-color="white"
-                                dense
-                                class="mx-1"
-                                outlined
-                                type="date"
-                                name="fechaprueba"
-                                label="fecha"
-                                id="fechaprueba"
-                                ></v-text-field>
+                                <v-select
+                                    dense
+                                    outlined
+                                    background-color="white"
+                                    :items="pruebas"
+                                    v-model="value"
+                                    label="EVALUACION"
+                                ></v-select>
 
                                 <v-text-field
                                 background-color="white"
@@ -239,6 +237,10 @@
                                                 dark
                                                 width="80"
                                                 hide-details
+                                                max="7"
+                                                min="1"
+                                                step="0.1"
+                                                type="number"
                                                 name="name"
                                                 id="id"
                                             ></v-text-field>
@@ -388,6 +390,7 @@ export default {
             modal3:false,
             curso:"",
             asignatura:"",
+            pruebas:[ " Prueba Matemativa 10-10-2020", " Prueba Biologia 05-09-2020", " Prueba Matemativa 15-07-2020", " Prueba Matemativa 19-12-2020" ],
             profesor:"luis Guerra",
 			asignaturas: ["CASTELLANO", "MATEMATICA", "BIOLOGIA", "GRAMATICA"],
 			cursos: ["1 medio A", "2 medio A", "2 medio C", "2 basico b", "2 basico c"],
