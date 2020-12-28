@@ -1,10 +1,14 @@
 <template>
   <v-data-table
+    dense
     :headers="encabezado"
     :items="datostabla"
     :search="search"
     sort-by="calories"
     class="elevation-4"
+    :footer-props="{
+           'items-per-page-text':'alumnos por página'
+      }"
     
   >
     <template v-slot:top>
@@ -16,76 +20,87 @@
         </v-toolbar-title>
         
         <v-spacer></v-spacer>
-        <v-text-field
+
+         <v-text-field
+            outlined
+            dense
             class="mr-10"
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            label="BUSCAR"
             single-line
             hide-details
          ></v-text-field>
+        
         <v-dialog
           persistent
           v-model="dialog"
-          max-width="500px"
+          max-width="650px"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-            <v-icon>mdi-plus</v-icon>
-              Agregar
-            </v-btn>
+            
           </template>
           <v-card>
             <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
+              <span class="headline">ANOTACION LIBRO DE CLASES </span>
             </v-card-title>
 
             <v-card-text>
               <v-container>
+                <v-row>
+                  <v-col cols="6">
+                    <v-text-field
+                      dense
+                      readonly
+                      filled
+                      rounded
+                      name="anotacionPor"
+                      label="PROFESOR QUE REALIZA"
+                      
+                      id="anotacionPor"
+                    ></v-text-field>
+                  </v-col>
+                    <v-col cols="6">
+                    <v-text-field
+                      dense
+                      filled
+                      rounded
+                      type="date"
+                      v-model="editedItem.codigo"
+                      label="FECHA"
+                    ></v-text-field>
+                    </v-col>
+                    <v-col cols="6">
+                    <v-text-field
+                      dense
+                      readonly
+                      filled
+                      rounded
+                      v-model="editedItem.nombre"
+                      label="ALUMNO ANOTADO"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="6">
+                     
+                  </v-col>
+                </v-row>
+                
+               
+                
                 <v-row>
                   <v-col
                     cols="12"
                     sm="12"
                     md="12"
                   >
-                    <v-text-field
-                    dense
-                      outlined
-                      v-model="nuevaasignatura.nombre_asignatura"
-                      label="NOMBRE ASIGNATURA"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="12"
-                  >
-                    <v-text-field
+                    <v-textarea
                       dense
                       outlined
                      
-                      label="NIVEL-ASSOCIADO"
-                    ></v-text-field>
+                      label="DETALLE ANOTACION"
+                    ></v-textarea>
                   </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="6"
-                  >
-                    <v-text-field
-                      dense
-                      outlined
-                      v-model="nuevaasignatura.codigo_asignatura"
-                      label="CODIGO-MINEDUC"
-                    ></v-text-field>
-                  </v-col>
-                 
+                  
                 </v-row>
               </v-container>
             </v-card-text>
@@ -100,15 +115,18 @@
                 Cancel
               </v-btn>
               <v-btn
+                dark
                 color="blue darken-1"
-                text
                 @click="save"
               >
-                Save
+                GUARDAR
               </v-btn>
+               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
@@ -128,7 +146,7 @@
         class="mr-2"
         @click="editItem(item)"
       >
-        mdi-pencil
+        ANOTACION
       </v-icon>
       <v-icon
         small
@@ -149,7 +167,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     name: "tablaAdmin",
     props:{
@@ -160,25 +177,10 @@ export default {
     },
      data() {
         return {
-          nuevaasignatura:{
-            nombre_asignatura:"",
-            codigo_asignatura:""
-          },
             search:"",
             dialog: false,
             dialogDelete: false,
-            headers:[
-                {text:'nombre', value: 'nombre'},
-                {text:'nivel-asoc', value:'nivel_asoc'},
-                {text:'codigo', value: 'codigo'},
-                {text:'acciones', value: 'actions'}
-            ],
-            items:[
-                {nombre: 'castellano', codigo: 'cas001', nivel_asoc: '1°medio'},
-                {nombre: 'Matematica', codigo: 'mat001', nivel_asoc: '1°medio'},
-                {nombre: 'Historia', codigo: 'his001', nivel_asoc: '1°medio'},
-                {nombre: 'Tecnologia', codigo: 'tec001', nivel_asoc: '1°medio'},
-            ],
+            
             desserts: [],
             editedIndex: -1,
             editedItem: {
@@ -234,14 +236,30 @@ export default {
         this.closeDelete()
       },
       save () {
-        axios.post('http://localhost:3000/api/asignaturas', this.nuevaasignatura)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        if (this.editedIndex > -1) {
+          Object.assign(this.items[this.editedIndex], this.editedItem)
+        } else {
+          this.items.push(this.editedItem)
+        }
+        this.close()
       },
     },
 }
 </script>
+
+<style scoped>
+ 
+  .col{
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .v-input--radio-group--row{
+    background-color: #f0f0f0;
+    border-radius: 50px;
+    margin-top: 0px;
+  }
+  .v-radio{
+    margin-bottom: 3px;
+    margin-left: 15px;
+  }
+</style>

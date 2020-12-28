@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col class="text-center titulo white--text ">
-                <h1>Panel de administraion MyCol</h1>
+                <h1>Panel de administracion MyCol</h1>
             </v-col>
         </v-row>
         <v-row >

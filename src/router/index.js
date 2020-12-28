@@ -15,10 +15,21 @@ const routes = [
 		name: "Home",
 		component: Home,
 		children: [
+			
 			{
 				path: "panelcontrol",
 				name: "PanelControl",
-				component: () => import(/* webpackChunkName: "about" */ "../views/PrincipalPanel.vue"),
+				component: () => import(/* webpackChunkName: "paneldecontrol" */ "../views/PrincipalPanel.vue"),
+			},
+			{
+				path: "matriculas",
+				name: "Matriculas",
+				component: () => import(/* webpackChunkName: "matriculas" */ "../views/MatriculasView.vue"),
+			},
+			{
+				path: "alumnos",
+				name: "Alumnos",
+				component: () => import(/* webpackChunkName: "about" */ "../views/AlumnosView.vue"),
 			},
 			{
 				path: "cursos",

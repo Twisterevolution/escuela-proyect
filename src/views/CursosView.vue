@@ -70,7 +70,7 @@
 
         <v-dialog v-model="modal1" max-width="500px" persistent>
 			<v-card>
-				<v-card-title class="headline">ESPESIFICAR NUEVA PRUEBA</v-card-title>
+				<v-card-title class="headline">ESPECIFICAR NUEVA PRUEBA</v-card-title>
                 <v-card-text>
                     <v-row>
                         <v-text-field

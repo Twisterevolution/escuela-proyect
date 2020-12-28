@@ -33,12 +33,13 @@ export default {
 	data() {
 		return {
 			infocards: [
-				{ name: "ALUMNOS", ruta: "about" },
+				{ name: "MATRICULAS", ruta: "matriculas" },
+				{ name: "ALUMNOS", ruta: "alumnos" },
 				{ name: "PROFESORES", ruta: "about" },
-				{ name: "LIBRO DE CLASES", ruta: "about" },
-				{ name: "MIS CURSOS", ruta: "cursos" },
+				{ name: "LIBRO DE CLASES", ruta: "cursos" },
 				{ name: "ASIGNATURAS", ruta: "about" },
 				{ name: "ADMINISTRACION", ruta: "administracion" },
+				
 			],
 		};
 	},
