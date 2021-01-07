@@ -5,13 +5,17 @@
 		</v-row>
 		<v-row align-content="center" justify="center">
 			<v-card
-				hover
+				v-tilt="{scale:1.1}"
 				:to="item.ruta"
 				v-for="item in infocards"
 				:key="item.name"
 				width="300"
 				height="200"
-				class="mx-5 my-5 mb-5 purple lighten-5"
+				class="mx-5 my-5 mb-5 mover"
+				
+				color="primary"
+				dark
+				
 			>
 				<v-card-title primary-title>
 					<div>
@@ -46,4 +50,7 @@ export default {
 };
 </script>
 
-<style></style>
+
+<style>
+
+</style>

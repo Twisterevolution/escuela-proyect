@@ -65,6 +65,12 @@ const routes = [
 						component: () =>
 							import(/* webpackChunkName: "tablaCursos" */ "../components/admcursos.vue"),
 					},
+					{
+						path: "aacademico",
+						name: "anoAcademico",
+						component: () =>
+							import(/* webpackChunkName: "anoacademico" */ "../components/admAnoAcademico.vue"),
+					},
 				],
 			},
 		],

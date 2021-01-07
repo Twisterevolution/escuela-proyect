@@ -43,13 +43,15 @@
                 <v-row>
                     <v-col class="pa-0 text-center" cols="6">
                         <v-avatar color="grey" size="203">
-                            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                            <v-img :src="urlimagen"></v-img>
                         </v-avatar>
                         <v-file-input
                             class="mt-2" 
                             outlined
                             dense
+                            @change="fotoVistaPrevia"
                             label="SUBIR FOTO ALUMNO"
+                            v-model="fotoAlumno"
                             filled
                             prepend-icon="mdi-camera"
                             :rules="[rules.required]"
@@ -158,7 +160,7 @@
                         outlined
                         :items="nacionalidad"
                         item-text="name"
-                        v-model="nacionalidadseleccionada"
+                        v-model="matricula.nacionalidadAlumno"
                         label="Nacionalidad *"
                         :rules="[rules.required]"
                     ></v-select>
@@ -225,6 +227,7 @@
                             class="mx-1"
                             outlined
                             label="EMAIL *"
+                            v-model="matricula.emailAlumno"
                             :rules="[rules.email]"
                         ></v-text-field> 
                     </v-col>
@@ -241,19 +244,20 @@
                     <v-col cols="2" justify="center">    
                         <v-checkbox 
                             label="SI" 
-                            v-model="originarioAlumno" 
+                            v-model="matricula.originarioAlumno" 
                         ></v-checkbox>
                     </v-col>
                     <v-col cols="8">
                         <v-select
-                            v-if="originarioAlumno"
+                            v-if="matricula.originarioAlumno"
                             dense
                             class=""
                             outlined
                             :items="pueblo"
                             label="Pueblo Originario"
+                            v-model="matricula.puebloOriginarioAlumno"
                         ></v-select>
-                        <h3 class="pt-4" v-if="!originarioAlumno" >No Pertenece a Pueblo Orinario</h3>
+                        <h3 class="pt-4" v-if="!matricula.originarioAlumno" >No Pertenece a Pueblo Orinario</h3>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -266,19 +270,20 @@
                     <v-col cols="2" justify="center">    
                         <v-checkbox 
                             label="SI" 
-                            v-model="tipoAlumnoCheck" 
+                            v-model="matricula.tipoAlumnoCheck" 
                         ></v-checkbox>
                     </v-col>
                     <v-col>
                         <v-select
-                        v-if="tipoAlumnoCheck"
+                            v-if="matricula.tipoAlumnoCheck"
                             dense
                             class=""
                             outlined
                             :items="tipoAlumno"
                             label="Tipo de Alumno"
+                            v-model="matricula.tipoAlumnoSeleccionado"
                         ></v-select>
-                         <h3 class="pt-4" v-if="!tipoAlumnoCheck" >No tiene Tipo de Alumno Segun Mineduc</h3>
+                         <h3 class="pt-4" v-if="!matricula.tipoAlumnoCheck" >No tiene Tipo de Alumno Segun Mineduc</h3>
                     </v-col>
                 </v-row>
             <p>
@@ -294,9 +299,28 @@
             <v-card-title primary-title>
                 DATOS APODERADO
             </v-card-title>
-          <v-card-text>     
+            <v-card-text>
                 <v-row>
-
+                    <v-col>
+                        <v-select
+                            dense
+                            outlined
+                            :items="parentezco"
+                            v-model="matricula.parentezcoApoderado"
+                            label="Parentezco con el alumno/a"
+                        ></v-select>
+                    </v-col>
+                    <v-col v-if='matricula.parentezcoApoderado =="Otro"'>
+                        <v-text-field
+                            
+                            dense
+                            outlined
+                            label="Detalle de parentesco con el alumno/a"
+                            v-model="matricula.otroParentezco"
+                        ></v-text-field>
+                    </v-col>
+                </v-row>     
+                <v-row>
                     <v-col cols="4">
                         <v-text-field
                             dense
@@ -382,6 +406,7 @@
                             class="mx-1"
                             outlined
                             label="NACIONALIDAD *"
+                            v-model="matricula.nacionalidadApoderado"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="4" class="pt-1 " >
@@ -392,19 +417,14 @@
                             class="mt-1 "
                             hide-details
                             label="SI" 
-                            v-model="viveConAlumno"
+                            v-model="matricula.apoderadoViveConAlumno"
                             @change="mismaDireccion" 
                         ></v-checkbox>
                         </v-row>
                         
                     </v-col>
                 </v-row>
-                <v-row>
-                   
-                   
-                   
-                     
-                </v-row>
+               
                 <v-row>
                     <v-divider class="mb-5"></v-divider>
                 </v-row>
@@ -444,18 +464,23 @@
                     </v-col> 
                 </v-row>
                 <v-row>
+                    <v-col>
                     <v-text-field
                         dense
                         class="mx-1"
                         outlined
                         label="N°TELEFONO *"
+                        v-model="matricula.telefonoApoderado"
                     ></v-text-field>
+                    </v-col>
+                    <v-col>
                     <v-text-field
                         dense
                         class="mx-1"
                         outlined
                         label="EMAIL *"
-                    ></v-text-field>
+                        v-model="matricula.emailApoderado"
+                    ></v-text-field></v-col>
                 </v-row>
             <p>
               Campos señalados con * son obligatorios para poder guardar la nueva matricula
@@ -518,8 +543,7 @@
                             class="mt-1 "
                             hide-details
                             label="SI" 
-                            v-model="viveConAlumno"
-                            @change="mismaDireccion" 
+                            v-model="matricula.checkRolJunji"
                         ></v-checkbox>
                         </v-row>
                     </v-col>
@@ -529,7 +553,7 @@
                             class="mx-1"
                             outlined
                             label="UN NUMERO O UN NOMBRE DE CLASIFICACION *"
-                            v-model="matricula.sexoSApoderado"
+                            v-model="matricula.detalleRolJunji"
                             :rules="[rules.required]"
                         ></v-text-field>
                     </v-col>
@@ -620,10 +644,13 @@ export default {
             },
             regiones: regionesx,
             nacionalidad: nacionalidades,
-            sexo:["Masculino","Femenino"],
-            viveCon:["Papa","Mama","Hermano", "Tio", "Abuelo", "Familiar", "Amigo de La familia","Pension/Recidencia/Internado","Otro"],
+            sexo:["Masculino","Femenina"],
+            viveCon:["Papá","Mamá","Hermano", "Tio", "Abuelo", "Familiar", "Amigo de La familia","Pension/Recidencia/Internado","Otro"],
             grados:["1°Medio","2°Medio"],
+            parentezco:["Papa","Mama","Hermano","Tio","Abuelo","Otro"],
             comunasx:["-"],
+            fotoAlumno:"",
+            urlimagen:"",
             fechaNacimiento:"",
             regionselecionada:"",
             comunaseleccionada:"",
@@ -644,13 +671,21 @@ export default {
                 fechaNacimientoAlumno:"",
                 edadAlumno:"",
                 sexoSAlumno:"",
+                nacionalidadAlumno:"",
                 alumnoNuevo:"",
                 gradoMatricula:"",
                 telefonoAlumno:"",
+                emailAlumno:"",
+                originarioAlumno:false,
+                puebloOriginarioAlumno:"",
+                tipoAlumnoCheck:false,
+                tipoAlumnoSeleccionado:"",
                 direccionAlumno:"",
                 regionAlumno:"",
                 comunaAlumno:"",
 
+                parentezcoApoderado:"",
+                otroParentezco:"",
                 nombreApoderado:"",
                 apellidoPatApoderado:"",
                 apellidoMatApoderado:"",
@@ -658,10 +693,20 @@ export default {
                 fechaNacimientoApoderado:"",
                 edadApoderado:"",
                 sexoSApoderado:"",
-                telefonoAlumno:"",
+                nacionalidadApoderado:"",
+                apoderadoViveConAlumno:"",
+                telefonoApoderado:"",
+                emailApoderado:"",
                 direccionApoderado:"",
                 regionApoderado:"",
                 comunaApoderado:"",
+
+
+                hermanos:"",
+                conQuienVive:"",
+                nombreConQuienVive:"",
+                checkRolJunji:"",
+                detalleRolJunji:"",
 
                 tieneRsh:"",
                 conocePuntajeRsh:"",
@@ -685,8 +730,10 @@ export default {
                 icon: 'success',
                 confirmButtonText: 'Continuar'
             })
-        }
-
+        },
+        fotoVistaPrevia:function(){
+            this.urlimagen = URL.createObjectURL(this.fotoAlumno)
+        },
     },
     computed:{
         edadAlumno:function(){

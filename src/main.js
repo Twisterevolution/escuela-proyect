@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VueMask from 'v-mask'
+import VueTilt from 'vue-tilt.js'
+Vue.use(VueTilt)
 
 Vue.use(VueMask)
 

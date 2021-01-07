@@ -5,7 +5,6 @@
     :search="search"
     sort-by="calories"
     class="elevation-4"
-    
   >
     <template v-slot:top>
       <v-toolbar
@@ -20,16 +19,26 @@
             class="mr-10"
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            label="Buscar por año"
             single-line
             hide-details
-         ></v-text-field>
+         ></v-text-field> 
+         <v-btn
+              color="primary"
+              dark
+              class="mb-2"
+              @click="passdata"
+            >
+            <v-icon>mdi-plus</v-icon>
+              Nuevo año academico
+            </v-btn>
         <v-dialog
           persistent
           v-model="dialog"
           max-width="500px"
         >
-          <template v-slot:activator="{ on, attrs }">
+        
+          <!-- <template v-slot:activator="{ on, attrs }">
             <v-btn
               color="primary"
               dark
@@ -40,7 +49,7 @@
             <v-icon>mdi-plus</v-icon>
               Agregar
             </v-btn>
-          </template>
+          </template> -->
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -123,6 +132,13 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
+       <v-icon
+       class="mr-2"
+        small
+        @click="deleteItem(item)"
+      >
+        mdi-eye
+      </v-icon>
       <v-icon
         small
         class="mr-2"
@@ -137,21 +153,14 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
+    
   </v-data-table>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
-    name: "tablaAdmin",
+    name: "tabla-tipo",
     props:{
       tablename:String,
       encabezado:Array,
@@ -195,6 +204,7 @@ export default {
                 carbs: 0,
                 protein: 0,
             },
+            
         }
     },
     computed: {
@@ -203,6 +213,9 @@ export default {
       },
     },
     methods: {
+        passdata (event){
+          this.$emit("abrirDialog1", true)
+        },
         deleteItem (item) {
         this.editedIndex = this.datostabla.indexOf(item)
         this.editedItem = Object.assign({}, item)
