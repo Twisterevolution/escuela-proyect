@@ -1,6 +1,6 @@
 <template>
 	<v-card elevation="5">
-		<p class="subtitle-2 ml-3">MATRICULAS TOMADAS POR CURSO</p>
+		<p class="subtitle-2 ml-3">MATRÍCULAS TOMADAS POR CURSO</p>
 		<v-simple-table dense>
 			<thead>
 				<tr>

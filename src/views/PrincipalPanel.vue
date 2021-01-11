@@ -23,7 +23,7 @@
 							<v-icon class="mr-2">mdi-teach</v-icon>
 							{{ item.name }}
 						</h4>
-						<div>description</div>
+						<div>descripción</div>
 					</div>
 				</v-card-title>
 			</v-card>
@@ -37,12 +37,12 @@ export default {
 	data() {
 		return {
 			infocards: [
-				{ name: "MATRICULAS", ruta: "matriculas" },
+				{ name: "MATRÍCULAS", ruta: "matriculas" },
 				{ name: "ALUMNOS", ruta: "alumnos" },
 				{ name: "PROFESORES", ruta: "about" },
 				{ name: "LIBRO DE CLASES", ruta: "cursos" },
 				{ name: "ASIGNATURAS", ruta: "about" },
-				{ name: "ADMINISTRACION", ruta: "administracion" },
+				{ name: "ADMINISTRACIÓN", ruta: "administracion" },
 				
 			],
 		};

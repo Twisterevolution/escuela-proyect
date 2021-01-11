@@ -25,6 +25,12 @@ const routes = [
 				path: "matriculas",
 				name: "Matriculas",
 				component: () => import(/* webpackChunkName: "matriculas" */ "../views/MatriculasView.vue"),
+				
+			},
+			{
+				path: "asigmataalumno",
+				name: "asigMatriculaAAlumno",
+				component:() => import(/* webpackChunkName: "matricula_a_curso" */"../views/asigAlumnoCursoView.vue")
 			},
 			{
 				path: "alumnos",

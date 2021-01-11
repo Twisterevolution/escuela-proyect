@@ -9,7 +9,7 @@
       <v-toolbar
         flat
       >
-        <v-toolbar-title>MATRICULAS AÑO ACADEMICO</v-toolbar-title>
+        <v-toolbar-title>MATRÍCULAS AÑO ACADÉMICO</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset

@@ -2,13 +2,13 @@
 	<v-container>
 		<v-row>
 			<v-col>
-				<card-dashboard :datogeneral="2021"></card-dashboard>
+				<card-dashboard title="Año Académico" :datogeneral="2021"></card-dashboard>
 			</v-col>
 			<v-col>
-				<card-dashboard title="Matriculas año Academico" :datogeneral="300"></card-dashboard>
+				<card-dashboard title="Matrículas Año Académico" :datogeneral="300"></card-dashboard>
 			</v-col>
 			<v-col>
-				<card-dashboard title="Matriculas Disponibles" :datogeneral="150"></card-dashboard>
+				<card-dashboard title="Matrículas Disponibles" :datogeneral="150"></card-dashboard>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -22,12 +22,17 @@
 					<v-icon class="mr-5">mdi-book-plus</v-icon>
 					MATRICULAR ALUMNO
 				</v-btn>
+
+				<v-btn :to="{name:'asigMatriculaAAlumno'}" class="my-5" block color="blue darken-4" x-large dark>
+					<v-icon class="mr-5">mdi-account-settings-outline</v-icon>
+					ASIGNAR MATRÍCULA A CURSO
+				</v-btn>
 				
 				<v-divider></v-divider>
 
 				<v-btn to="panelcontrol" class="my-5" block outlined color="warning" x-large dark>
 					<v-icon class="mr-5">mdi-arrow-left-circle</v-icon>
-					volver al menu principal
+					volver al menú principal
 				</v-btn>
 			</v-col>
 			<v-col cols="8">

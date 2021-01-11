@@ -2,18 +2,18 @@
     <v-container>
         <v-row>
             <v-col class="text-center titulo white--text ">
-                <h1>Panel de administracion MyCol</h1>
+                <h1>Panel de Administración MyCol</h1>
             </v-col>
         </v-row>
         <v-row >
             <v-col cols="3" > 
                 <ul>
-                    <li><router-link :to="{name:'roles'}">administracion de Roles</router-link></li>
-                    <li><router-link :to="{name:'usuarios'}">administracion de usuarios</router-link></li>
-                    <li><router-link :to="{name:'asignaturas'}">administracion de asignaturas</router-link></li>
-                    <li><router-link :to="{name:'cursos'}">administracion de cursos</router-link></li>
-                    <li><router-link :to="{name:'anoAcademico'}">gestion año academico</router-link></li>
-                    <li>administracion de Niveles</li>
+                    <li><router-link :to="{name:'roles'}">Administración de Roles</router-link></li>
+                    <li><router-link :to="{name:'usuarios'}">Administración de Usuarios</router-link></li>
+                    <li><router-link :to="{name:'asignaturas'}">Administración de Asignaturas</router-link></li>
+                    <li><router-link :to="{name:'cursos'}">Administración de Cursos</router-link></li>
+                    <li><router-link :to="{name:'anoAcademico'}">Gestión Año Académico</router-link></li>
+                    <li>Administración de Niveles</li>
                 </ul>
             </v-col>
             

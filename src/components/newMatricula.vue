@@ -5,7 +5,7 @@
       color="primary"
       dark
     >
-      <v-toolbar-title>NUEVA MATRICULA <v-spacer></v-spacer>Alumno(a): {{matricula.nombreAlumno}} {{matricula.apellidoPatAlumno}} </v-toolbar-title>
+      <v-toolbar-title>NUEVA MATRÍCULA <v-spacer></v-spacer>Alumno(a): {{matricula.nombreAlumno}} {{matricula.apellidoPatAlumno}} </v-toolbar-title>
     </v-toolbar>
     <v-tabs vertical >
       <v-tab>
@@ -33,7 +33,7 @@
                 <v-icon left>
                     mdi-content-save-all
                 </v-icon>
-            GUARDAR MATRICULA
+            GUARDAR MATRÍCULA
         </v-btn>
      
 
@@ -265,7 +265,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="2" class="text-center">
-                        <label  for="">Tiene tipo de alumno</label>
+                        <label  for="">Categoría MINEDUC</label>
                     </v-col>
                     <v-col cols="2" justify="center">    
                         <v-checkbox 
@@ -307,7 +307,7 @@
                             outlined
                             :items="parentezco"
                             v-model="matricula.parentezcoApoderado"
-                            label="Parentezco con el alumno/a"
+                            label="Parentesco con el alumno/a"
                         ></v-select>
                     </v-col>
                     <v-col v-if='matricula.parentezcoApoderado =="Otro"'>
@@ -495,7 +495,7 @@
        <v-tab-item>
         <v-card flat>
             <v-card-title primary-title>
-                DATOS FAMILIARES Y SOCIO ECONOMICOS
+                DATOS FAMILIARES Y SOCIOECÓNOMICOS
             </v-card-title>
           <v-card-text>     
                 <v-row>
@@ -644,10 +644,10 @@ export default {
             },
             regiones: regionesx,
             nacionalidad: nacionalidades,
-            sexo:["Masculino","Femenina"],
-            viveCon:["Papá","Mamá","Hermano", "Tio", "Abuelo", "Familiar", "Amigo de La familia","Pension/Recidencia/Internado","Otro"],
+            sexo:["Masculino","Femenino", "Indefinido"],
+            viveCon:["Papá","Mamá","Hermano", "Tio", "Abuelo", "Familiar", "Amigo de La familia","Pensión/Residencia/Internado/Hogar","Otro"],
             grados:["1°Medio","2°Medio"],
-            parentezco:["Papa","Mama","Hermano","Tio","Abuelo","Otro"],
+            parentezco:["Papá","Mamá","Hermano","Tío","Abuelo","Otro"],
             comunasx:["-"],
             fotoAlumno:"",
             urlimagen:"",
@@ -661,7 +661,7 @@ export default {
                             
 
             pueblo:["Alacalufe","Atacameño","Aimara","Colla","Diagita","Mapuche","Quechua","Rapanui","Ninguno", "Otro"],
-            tipoAlumno:["Sin Calificacion","Prioritario", "Integrado", "Preferente-Emergente", "Preferente-Autonomo"],
+            tipoAlumno:["Sin Clasificación","Prioritario", "Integrado", "Preferente-Emergente", "Preferente-Autónomo"],
 
             matricula:{
                 nombreAlumno:"",
@@ -726,7 +726,7 @@ export default {
         guardarNuevaMatricula:function(){
             Swal.fire({
                 title: 'Guardada Correctamente!',
-                text: 'Se a creado una nueva Matricula',
+                text: 'Se ha creado una nueva matrícula',
                 icon: 'success',
                 confirmButtonText: 'Continuar'
             })
