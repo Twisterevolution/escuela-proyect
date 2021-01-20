@@ -122,13 +122,13 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-       <v-icon
+       <!-- <v-icon
        class="mr-2"
         small
         @click="deleteItem(item)"
       >
         mdi-eye
-      </v-icon>
+      </v-icon> -->
       <v-icon
         small
         class="mr-2"
