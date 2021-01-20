@@ -1,7 +1,8 @@
 <template>
     <v-container>
         <v-row>
-            <v-col class="text-center titulo white--text ">
+            <v-col cols="12" class="text-start titulo white--text d-flex" > 
+                <v-btn @click="$router.push({name:'PanelControl'})" class="btnseparate mr-5" color="success">VOLVER</v-btn>
                 <h1>Panel de Administración MyCol</h1>
             </v-col>
         </v-row>
@@ -26,11 +27,36 @@
 </template>
 
 <script>
+import axios from 'axios'
 import tablaAdmin from '../components/tablaAdmin.vue'
 export default {
     name:"panel-administracion",
     components:{
         tablaAdmin
+    },
+    data() {
+        return {
+            nuevoestablecimento:{
+                nombreEstablecimiento:"Las raices",
+                telefonoEstablecimiento:45-222233,
+                direccionEstablecimiento:"papel"   
+            }
+           
+        }
+    },
+    methods: {
+        traer:function(){
+           
+
+           axios.get('/api/asignaturas')
+           .then(res => {
+               console.log('hola');
+               console.log(res.data); 
+           })
+           .catch(error=>{
+               console.log(error);
+           })
+        }
     },
    
 }

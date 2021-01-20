@@ -21,6 +21,7 @@
             <v-select
                 dense
                 outlined
+                hide-details
                 class="mt-3"
                 :items="['2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030']"
                 v-model="aacademico.añoacademico"
@@ -56,12 +57,26 @@
                 </v-col>
             </v-row>
             <v-divider class="mb-1"></v-divider>
-            <v-row >
-                <h3 class="col-6 mt-2 ml-2" >PERIODO ACADÉMICO</h3>
-                <v-radio-group v-model="aacademico.periodo" row>
-                   <v-radio label="SEMESTRAL" value="2" ></v-radio>
-                   <v-radio label="TRIMESTRAL" value="3"></v-radio>
-                </v-radio-group>
+            <v-row class="">
+                <v-col class="periodo-academico-border mb-2 mx-3">
+                  <h3 >PERIODO ACADÉMICO</h3>
+                <v-radio-group hide-details v-model="aacademico.periodo" row dense>
+                   <v-radio label="SEMESTRE" value="2" ></v-radio>
+                   <v-radio label="TRIMESTRE" value="3"></v-radio>
+                </v-radio-group>  
+                </v-col>
+                <v-col class="periodo-academico-border mb-2 mx-3">
+                    <h3 class="mb-3">MATRÍCULAS DEL PERIODO</h3>
+                <v-text-field
+                    dense
+                    outlined
+                    hide-details
+                    type="number"
+                    name="name"
+                    label="Total"
+                    v-model="aacademico.matriculasDisponibles"
+                ></v-text-field>
+                </v-col>
                
             </v-row>
             <v-divider class="mb-1"></v-divider>
@@ -151,7 +166,7 @@
     </v-card>
         
     </v-dialog>
-    <!-- <child @abremodal="otrometodo" ></child> -->
+
     </div>
 </template>
 
@@ -173,6 +188,7 @@ export default {
                 v1termino:"",
                 v2termino:"",
                 v3termino:"",
+                matriculasDisponibles:""
 
             },
             dialogNuevoAnoAcademico:false,
@@ -201,7 +217,9 @@ export default {
 </script>
 
 <style>
-
-
+.periodo-academico-border{
+    border: 1px solid rgb(187, 187, 187);
+    border-radius: 5px;
+}
     
 </style>

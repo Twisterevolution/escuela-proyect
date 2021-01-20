@@ -110,7 +110,7 @@
                             class="mx-1 mt-1"
                             outlined
                             label="GRADO QUE MATRICULA *"
-                            v-model="matricula.gradoMatricula"
+                            v-model="matricula.nivelMatricula"
                             :rules="[rules.required]"
                             :items="grados"
                         ></v-select>
@@ -673,7 +673,7 @@ export default {
                 sexoSAlumno:"",
                 nacionalidadAlumno:"",
                 alumnoNuevo:"",
-                gradoMatricula:"",
+                nivelMatricula:"",
                 telefonoAlumno:"",
                 emailAlumno:"",
                 originarioAlumno:false,

@@ -3,8 +3,10 @@
     :headers="encabezado"
     :items="datostabla"
     :search="search"
-    sort-by="calories"
+    :btnTitulo="btnTitulo"
     class="elevation-4"
+    :loading="loading"
+    loading-text="Loading... Please wait"
   >
     <template v-slot:top>
       <v-toolbar
@@ -30,26 +32,14 @@
               @click="passdata"
             >
             <v-icon>mdi-plus</v-icon>
-              Nuevo año academico
+              {{btnTitulo}}
             </v-btn>
         <v-dialog
           persistent
           v-model="dialog"
           max-width="500px"
         >
-        
-          <!-- <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-            <v-icon>mdi-plus</v-icon>
-              Agregar
-            </v-btn>
-          </template> -->
+
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -142,7 +132,7 @@
       <v-icon
         small
         class="mr-2"
-        @click="editItem(item)"
+        @click="editar(item)"
       >
         mdi-pencil
       </v-icon>
@@ -164,7 +154,10 @@ export default {
     props:{
       tablename:String,
       encabezado:Array,
-      datostabla:Array
+      datostabla:Array,
+      loading:Boolean,
+      btnTitulo:String,
+      editar:Function
 
     },
      data() {
@@ -214,18 +207,18 @@ export default {
     },
     methods: {
         passdata (event){
-          this.$emit("abrirDialog1", true)
+          this.$emit("abrirDialog1", {'abre':true, 'nueva':1})
         },
         deleteItem (item) {
         this.editedIndex = this.datostabla.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
-         editItem (item) {
-        this.editedIndex = this.items.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
+      //    editItem (item) {
+      //     this.editedIndex = this.items.indexOf(item)
+      //   this.editedItem = Object.assign({}, item)
+      //   this.dialog = true
+      // },
 
       close () {
         this.dialog = false
