@@ -6,6 +6,7 @@ module.exports = {
     proxy:{
     '^/api':{
       target:process.env.VUE_APP_URIAPI,
+      ws: true,
       changeOrigin:true
     }
     }

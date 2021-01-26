@@ -3,6 +3,7 @@
 		<v-row>
 			<v-col>
 				<card-dashboard title="Año Académico" :datogeneral="anio"></card-dashboard>
+				{{urlx}}
 			</v-col>
 			<v-col>
 				<card-dashboard title="Matrículas Año Académico" :datogeneral="matdisp"></card-dashboard>
@@ -129,6 +130,7 @@ export default {
 			verificarutalumno:"",
 			matriculas:[],
 			idAnioAcademicoActivo:0,
+			urlx: process.env.VUE_APP_URIAPI
 			
 		};
     },
@@ -137,12 +139,13 @@ export default {
 			this.dialog = e
 		},
 		getanioacademicoapi(){
-			axios.get('/api/anioAcademico/searchEstado/1')
+			let url = process.env.VUE_APP_URIAPI
+			axios.get(`${url}/api/anioAcademico/searchEstado/1`)
 			.then(res=>{
 				this.anio= parseInt( res.data[0].anioAcademicoNumero)
 				this.matdisp= parseInt( res.data[0].cantidadMatriculas)
 				this.idAnioAcademicoActivo = res.data[0].id
-				axios.get('/api/matriculas')
+				axios.get(`${url}/api/matriculas`)
         		.then(res =>{
 					console.log(res.data);
 					this.cargando =false
