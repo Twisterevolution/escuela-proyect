@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["admroles"],{dcd4:function(n,e,a){"use strict";a.r(e);var t=function(){var n=this,e=n.$createElement,a=n._self._c||e;return a("v-container",[a("h1",[n._v("ADMINISTRACION DE ROLES")])])},r=[],l={name:"admroles"},o=l,c=a("2877"),s=a("6544"),u=a.n(s),i=a("a523"),d=Object(c["a"])(o,t,r,!1,null,null,null);e["default"]=d.exports;u()(d,{VContainer:i["a"]})}}]);
+//# sourceMappingURL=admroles.3653d447.js.map
