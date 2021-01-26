@@ -1,4 +1,5 @@
 [
+    { "code": "CHL", "name": "Chile" },
     { "code": "AFG", "name": "Afganistán" },
     { "code": "ALB", "name": "Albania" },
     { "code": "DEU", "name": "Alemania" },
@@ -41,7 +42,6 @@
     { "code": "QAT", "name": "Catar" },
     { "code": "BES", "name": "Bonaire" },
     { "code": "TCD", "name": "Chad" },
-    { "code": "CHL", "name": "Chile" },
     { "code": "CHN", "name": "China" },
     { "code": "CYP", "name": "Chipre" },
     { "code": "COL", "name": "Colombia" },

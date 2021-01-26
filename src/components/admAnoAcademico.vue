@@ -5,6 +5,7 @@
       :encabezado="datosCabeceraTabla"
       :datostabla="datosTablaAcademico"
       @abrirDialog1="abrirDialog1Parent"
+      :loading="cargando"
     ></tablatipo>
     <v-dialog
         v-model="dialogNuevoAnoAcademico"
@@ -171,12 +172,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 import tablatipo from './tablatipo.vue'
 export default {
   components: { tablatipo },
     name:"ano-academico",
     data() {
         return {
+            cargando:true,
             aacademico:{
                 añoacademico:"",
                 inicioaño:"",
@@ -194,16 +197,13 @@ export default {
             dialogNuevoAnoAcademico:false,
            
             datosCabeceraTabla:[    
-                {text:'AÑO', value: 'nombre'},
-                {text:'ESTADO', value:'codigo'},
-                {text:'INICIO', value: 'inicio'},
+                {text:'AÑO', value: 'anioAcademicoNumero'},
+                {text:'ESTADO', value:'estado.estado'},
+                {text:'INICIO', value: 'fechaInicio'},
                 {text:'ACCIONES', value: 'actions'}
             ],
             datosTablaAcademico:[
-                {nombre: '2021', codigo: 'Abierto', inicio: '06-03-2021'},
-                {nombre: '2020', codigo: 'finalizado', inicio: '04-03-2020'},
-                {nombre: '2019', codigo: 'cerrado', inicio: '15-03-2019'},
-                {nombre: '2018', codigo: 'cerrado', inicio: '08-03-2018'},
+                
             ]
              
         }
@@ -211,7 +211,17 @@ export default {
     methods: {
         abrirDialog1Parent:function(params){
             this.dialogNuevoAnoAcademico = params
+        },
+        traeranios(){
+            axios.get('/api/anioAcademico')
+            .then(res=>{
+                this.datosTablaAcademico = res.data
+                this.cargando=false
+            })
         }
+    },
+    mounted() {
+        this.traeranios()
     },
 }
 </script>
@@ -221,5 +231,7 @@ export default {
     border: 1px solid rgb(187, 187, 187);
     border-radius: 5px;
 }
+
+
     
 </style>

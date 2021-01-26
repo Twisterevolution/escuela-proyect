@@ -1,7 +1,8 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="detallematriculas"
+    :loading="cargando"
     sort-by="calories"
     class="elevation-5"
   >
@@ -125,8 +126,14 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-slot:item.alumno="{ item }">
+      {{item.usuario.nombreUsuario}} {{item.usuario.apellidoPaternoUsuario}} {{item.usuario.apellidoMaternoUsuario}}
+    </template>
+    <template v-slot:item.apoderado="{ item }">
+      {{item.apoderado.usuario.nombreUsuario}} {{item.apoderado.usuario.apellidoPaternoUsuario}} {{item.apoderado.usuario.apellidoMaternoUsuario}}
+    </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon
+      <!-- <v-icon
         small
         class="mr-2"
         @click="editItem(item)"
@@ -138,14 +145,14 @@
         @click="deleteItem(item)"
       >
         mdi-delete
-      </v-icon>
-       <v-icon
+      </v-icon> -->
+       <!-- <v-icon
         small
         class="ml-2"
         @click="editItem(item)"
       >
         mdi-pencil
-      </v-icon>
+      </v-icon> -->
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -159,8 +166,13 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default {
     name: "tabla-matriculas" , 
+    props:{
+      detallematriculas:Array,
+      cargando:Boolean
+    },
     data: () => ({
       dialog: false,
       dialogDelete: false,
@@ -169,13 +181,14 @@
           text: 'N°Matricula',
           align: 'start',
           sortable: false,
-          value: 'calories',
+          value: 'id',
         },
-        { text: 'Alumno', value: 'name' },
-        { text: 'Rut', value: 'fat' },
-        { text: 'Grado', value: 'carbs' },
-        { text: 'Apoderado', value: 'protein' },
-        { text: 'Acciones', value: 'actions', sortable: false },
+        { text: 'Alumno', value: 'alumno' },
+        { text: 'Rut', value: 'usuario.rut' },
+        { text: 'Nivel', value: 'nivel.nombreNivel' },
+        { text: 'Curso', value: 'alumno.curso.nombreCurso' },
+        // { text: 'Apoderado', value: 'apoderado' },
+        // { text: 'Acciones', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
@@ -211,82 +224,20 @@
     },
 
     created () {
-      this.initialize()
+      // this.initialize()
+      //this.todas()
     },
 
     methods: {
+      todas(){
+        axios.get('/api/matriculas')
+        .then(res =>{
+          this.desserts = res.data
+        })
+      },
       initialize () {
         this.desserts = [
-          {
-            name: 'Martin Sin-Fin',
-            calories: 159,
-            fat: '14.412.853-2',
-            carbs: '1medio',
-            protein: 'Luis Navia Zamorano',
-          },
-          {
-            name: 'Rodrigo ni te lodigo',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-          },
-          {
-            name: 'Juanin Juna Jarri',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-          },
-          {
-            name: 'Alexis Sanchez',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-          },
-          {
-            name: 'Rodrigo Vidal',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-          },
-          {
-            name: 'Marcelo Zalas',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-          },
+        
         ]
       },
 

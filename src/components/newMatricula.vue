@@ -1,5 +1,10 @@
 <template>
     <v-card>
+      <v-form 
+            ref="form"
+            v-model="valid"
+            lazy-validation
+        > 
     <v-toolbar
       flat
       color="primary"
@@ -29,17 +34,25 @@
      
       
        
-       <v-btn class="mx-2 mt-5" color="success" @click="guardarNuevaMatricula">
+       <v-btn class="mx-2 mt-5" color="success" @click="guardarNuevaMatricula" x-large>
                 <v-icon left>
                     mdi-content-save-all
                 </v-icon>
             GUARDAR MATRÍCULA
         </v-btn>
-     
+
+               <v-btn class="mx-2 mt-5" color="warning"  dark outlined @click="cancelarCreacionMatricula">
+                <v-icon left>
+                    mdi-close
+                </v-icon>
+            CANCELAR
+        </v-btn>
+       
 
       <v-tab-item>
         <v-card flat>
             <v-card-text>
+                
                 <v-row>
                     <v-col class="pa-0 text-center" cols="6">
                         <v-avatar color="grey" size="203">
@@ -54,7 +67,7 @@
                             v-model="fotoAlumno"
                             filled
                             prepend-icon="mdi-camera"
-                            :rules="[rules.required]"
+                            
                         ></v-file-input>
                         <v-row class="mb-3">
                             <v-col cols="6">
@@ -70,16 +83,29 @@
                             </v-col>
                         </v-row>
                     </v-col>
-
+                    
                     <v-col cols="6">
+                        <v-text-field
+                            dense
+                            class="mx-1"
+                            outlined
+                            label="RUT *"
+                            v-mask="'########-#'"
+                            v-model="matricula.rutAlumno"
+                            @change="verificarAlumno"
+                            :rules="[rules.required]"
+                        ></v-text-field>
                         <v-text-field
                             dense
                             class="mx-1"
                             outlined
                             label="NOMBRES *"
                             v-model="matricula.nombreAlumno"
-                            :rules="[rules.required]"
+                            v-bind:rules="[rules.required]"
+                            required
                         ></v-text-field>
+                       
+                        
                         <v-text-field
                             dense
                             class="mx-1"
@@ -96,25 +122,20 @@
                             v-model="matricula.apellidoMatAlumno"
                             :rules="[rules.required]"
                         ></v-text-field>
-                        <v-text-field
-                            dense
-                            class="mx-1"
-                            outlined
-                            label="RUT *"
-                            v-mask="'########-#'"
-                            v-model="matricula.rutAlumno"
-                            :rules="[rules.required]"
-                        ></v-text-field>
+
                         <v-select
                             dense
                             class="mx-1 mt-1"
                             outlined
-                            label="GRADO QUE MATRICULA *"
+                            label="NIVEL QUE MATRICULA *"
                             v-model="matricula.nivelMatricula"
                             :rules="[rules.required]"
-                            :items="grados"
+                            :items="niveles"
+                            item-text="nombreNivel"
+                            item-value="id"
                         ></v-select>
                     </v-col>
+
                 </v-row>
                 <v-row>
                     <v-divider class="mb-5"></v-divider>
@@ -150,6 +171,8 @@
                         label="SEXO *"
                         v-model="matricula.sexoSAlumno"
                         :items="sexo"
+                        item-text="nombre"
+                        item-value="id"
                         :rules="[rules.required]"
                     ></v-select>
                     </v-col>
@@ -308,7 +331,19 @@
                             :items="parentezco"
                             v-model="matricula.parentezcoApoderado"
                             label="Parentesco con el alumno/a"
+                            :rules="[rules.required]"
                         ></v-select>
+                        <v-text-field
+                            dense
+                            class="mx-1"
+                            outlined
+                            v-mask="'########-#'"
+                            label="RUT *"
+                            v-model="matricula.rutApoderado"
+                            @change="verificarUsuarioApoderado"
+                            :rules="[rules.required]"
+                        ></v-text-field>
+
                     </v-col>
                     <v-col v-if='matricula.parentezcoApoderado =="Otro"'>
                         <v-text-field
@@ -317,6 +352,7 @@
                             outlined
                             label="Detalle de parentesco con el alumno/a"
                             v-model="matricula.otroParentezco"
+                            :rules="[rules.required]"
                         ></v-text-field>
                     </v-col>
                 </v-row>     
@@ -328,8 +364,7 @@
                             outlined
                             label="NOMBRES *"
                             v-model="matricula.nombreApoderado"
-                            required
-                            :rules="[() => !!name || 'Campo Obligatorio']"
+                            :rules="[rules.required]"
                         ></v-text-field>
                     </v-col>
 
@@ -339,9 +374,8 @@
                             class="mx-1"
                             outlined
                             label="APELLIDO PATERNO *"
-                            v-model="matricula.apellidoPatApoderado"
-                            required
-                            :rules="[() => !!name || 'Campo Obligatorio']"
+                            v-model="matricula.apellidoPatApoderado" 
+                            :rules="[rules.required]"
                         ></v-text-field>
                     </v-col> 
 
@@ -352,30 +386,20 @@
                             outlined
                             label="APELLIDO MATERNO *"
                             v-model="matricula.apellidoMatApoderado "
-                            required
-                            :rules="[() => !!name || 'Campo Obligatorio']"
+                            :rules="[rules.required]"
                         ></v-text-field>
                     </v-col>
 
-                    <v-col cols="4">
-                        <v-text-field
-                            dense
-                            class="mx-1"
-                            outlined
-                            label="RUT *"
-                            v-model="matricula.rutApoderado"
-                            required
-                            :rules="[() => !!name || 'Campo Obligatorio']"
-                        ></v-text-field>
-                    </v-col>
+                    
                     <v-col cols="4">
                          <v-text-field
                             dense
                             class="mx-1"
                             outlined
-                            v-model="matricula.fechaNaciemientoApoderado "
+                            v-model="matricula.fechaNacimientoApoderado "
                             label="FECHA NACIMIENTO *"
                             type="date"
+                            :rules="[rules.required]"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="4">
@@ -397,21 +421,31 @@
                         label="SEXO *"
                         v-model="matricula.sexoSApoderado"
                         :items="sexo"
+                        item-value="id"
+                        item-text="nombre"
                         :rules="[rules.required]"
                     ></v-select>
                     </v-col>
                     <v-col cols="4">
-                        <v-text-field
+                        <v-select
                             dense
                             class="mx-1"
                             outlined
                             label="NACIONALIDAD *"
+                            :items="nacionalidad"
+                            item-text="name"
                             v-model="matricula.nacionalidadApoderado"
-                        ></v-text-field>
+                             :rules="[rules.required]"
+                        ></v-select>
                     </v-col>
                     <v-col cols="4" class="pt-1 " >
                         <h3 class="text-center d-block">Apoderado vive con el alumno</h3>
                         <v-row class="justify-center">
+                        
+                        </v-row>
+                        
+                    </v-col>
+                    <v-col cols="4">
                         <v-checkbox 
                             style="width:40px"
                             class="mt-1 "
@@ -420,8 +454,6 @@
                             v-model="matricula.apoderadoViveConAlumno"
                             @change="mismaDireccion" 
                         ></v-checkbox>
-                        </v-row>
-                        
                     </v-col>
                 </v-row>
                
@@ -436,6 +468,7 @@
                             outlined
                             label="DIRECCION *"
                             v-model="matricula.direccionApoderado"
+                             :rules="[rules.required]"
                         ></v-text-field>
                     </v-col>
 
@@ -448,7 +481,8 @@
                             item-text='region'
                             v-model="matricula.regionApoderado"
                             label="REGION *"
-                            @input="selectComuna"
+                            @input="selectComunaApoderado"
+                             :rules="[rules.required]"
                         ></v-select>
                     </v-col>
 
@@ -460,6 +494,7 @@
                             :items="comunasx[0].comunas"  
                             v-model="matricula.comunaApoderado"                     
                             label="COMUNA *"
+                             :rules="[rules.required]"
                         ></v-select>
                     </v-col> 
                 </v-row>
@@ -469,6 +504,7 @@
                         dense
                         class="mx-1"
                         outlined
+                        v-mask="'+56 #########'"
                         label="N°TELEFONO *"
                         v-model="matricula.telefonoApoderado"
                     ></v-text-field>
@@ -480,6 +516,7 @@
                         outlined
                         label="EMAIL *"
                         v-model="matricula.emailApoderado"
+                        :rules="[rules.email]"
                     ></v-text-field></v-col>
                 </v-row>
             <p>
@@ -509,6 +546,7 @@
                             v-model="matricula.hermanos"
                             type="number"
                             min="0"
+                             :rules="[rules.required]"
                         ></v-text-field>
                     </v-col>
 
@@ -554,7 +592,7 @@
                             outlined
                             label="UN NUMERO O UN NOMBRE DE CLASIFICACION *"
                             v-model="matricula.detalleRolJunji"
-                            :rules="[rules.required]"
+                            
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -620,8 +658,34 @@
           </v-card-text>
         </v-card>
       </v-tab-item>
+        
       
     </v-tabs>
+    
+        
+   </v-form>
+   <v-dialog
+       v-model="cargando"
+       width="350"
+       max-width="500px"
+       transition="dialog-transition"
+       scrollable="true"
+       persistent
+       
+   >
+    <v-card>
+        <v-card-title primary-title>
+          Guardando Nueva Matricula
+        </v-card-title>
+        <v-card-text class="text-center">
+           <img  src="../assets/book-loader.gif" alt="" width="300" height="220" srcset="" class="carga">
+        </v-card-text>
+        <v-card-text>
+            Un momento Porfavor....
+        </v-card-text>
+    </v-card>
+       
+   </v-dialog>
   </v-card>
 </template>
 
@@ -631,10 +695,19 @@ import Swal from 'sweetalert2'
 import regionesx from '../assets/dataApp/comunas-regiones.json'
 import nacionalidades from '../assets/dataApp/nacionalidades.json'
 
+
+
 export default {
     name:"new-matricula",
+    props:{
+        idAnioAcademico:Number,
+        anio:Number
+    },
     data() {
         return {
+            cargando:false,
+            valid:true,
+            estado:false,
             rules:{
                 required: value => !!value || 'Dato Obligatorio.',
                 email: value => {
@@ -644,9 +717,13 @@ export default {
             },
             regiones: regionesx,
             nacionalidad: nacionalidades,
-            sexo:["Masculino","Femenino", "Indefinido"],
+            sexo:[
+                {id:"M", nombre: "Masculino"},
+                {id:"F",nombre:"Femenino"}, 
+                {id:"X", nombre:"Indefinido"}
+                ],
             viveCon:["Papá","Mamá","Hermano", "Tio", "Abuelo", "Familiar", "Amigo de La familia","Pensión/Residencia/Internado/Hogar","Otro"],
-            grados:["1°Medio","2°Medio"],
+            niveles:"",
             parentezco:["Papá","Mamá","Hermano","Tío","Abuelo","Otro"],
             comunasx:["-"],
             fotoAlumno:"",
@@ -683,6 +760,7 @@ export default {
                 direccionAlumno:"",
                 regionAlumno:"",
                 comunaAlumno:"",
+                curso:1,
 
                 parentezcoApoderado:"",
                 otroParentezco:"",
@@ -702,7 +780,7 @@ export default {
                 comunaApoderado:"",
 
 
-                hermanos:"",
+                hermanos:0,
                 conQuienVive:"",
                 nombreConQuienVive:"",
                 checkRolJunji:"",
@@ -710,13 +788,69 @@ export default {
 
                 tieneRsh:"",
                 conocePuntajeRsh:"",
-                puntajeRsh:""
+                puntajeRsh:"",
+                anioAcademico:this.idAnioAcademico,
+                anioAcademicoNumero:this.anio
             }
         }
     },
     methods: {
+        cancelarCreacionMatricula:function(){
+            this.$refs.form.reset()
+            this.$emit('cerrarDialogMatricula', false)
+        },
+         verificarAlumno:function(){
+			axios.get(`/api/usuarios/searchRut/${this.matricula.rutAlumno}`)
+			.then(res=>{
+                console.log(res.data);
+                this.matricula.nombreAlumno= res.data.nombreUsuario
+                this.matricula.apellidoPatAlumno =res.data.apellidoPaternoUsuario
+                this.matricula.apellidoMatAlumno = res.data.apellidoMaternoUsuario
+                this.matricula.fechaNacimientoAlumno = res.data.fechaNacimiento
+                this.matricula.edadAlumno = res.data.edad
+                this.matricula.sexoSAlumno = res.data.sexo
+                this.matricula.nacionalidadAlumno = res.data.nacionalidad
+                this.matricula.telefonoAlumno = res.data.telefono
+                this.matricula.emailAlumno = res.data.email
+                this.matricula.direccionAlumno = res.data.direccion
+                this.matricula.regionAlumno = res.data.region
+                this.matricula.comunaAlumno = res.data.comuna
+			})
+		},
+
+
+        verificarUsuarioApoderado:function(){
+			axios.get(`/api/usuarios/searchRut/${this.matricula.rutApoderado}`)
+			.then((res)=>{
+                this.matricula.nombreApoderado = res.data.nombreUsuario
+                this.matricula.apellidoPatApoderado = res.data.apellidoPaternoUsuario
+                this.matricula.apellidoMatApoderado = res.data.apellidoMaternoUsuario
+                this.matricula.fechaNacimientoApoderado = res.data.fechaNacimiento
+                // this.matricula.edadApoderado = res.data.edad
+                this.matricula.sexoSApoderado = res.data.sexo
+                this.matricula.nacionalidadApoderado = res.data.nacionalidad
+                this.matricula.direccionApoderado = res.data.direccion
+                this.matricula.regionApoderado = res.data.region
+                this.matricula.comunaApoderado = res.data.comuna
+                this.matricula.telefonoApoderado = res.data.telefono
+                this.matricula.emailApoderado = res.data.email
+				console.log(res.data);
+			})
+            
+		},
+        
+
+        traerniveles(){
+            axios.get('/api/niveles')
+            .then(res=>{
+                this.niveles = res.data
+            })
+        },
         selectComuna:function(){
             this.comunasx = this.regiones.filter(selec => selec.region == this.matricula.regionAlumno)
+       },
+       selectComunaApoderado:function(){
+            this.comunasx = this.regiones.filter(selec => selec.region == this.matricula.regionApoderado)
        },
        mismaDireccion:function(){
            this.matricula.direccionApoderado = this.matricula.direccionAlumno
@@ -724,23 +858,93 @@ export default {
            this.matricula.comunaApoderado = this.matricula.comunaAlumno
         },
         guardarNuevaMatricula:function(){
-            Swal.fire({
-                title: 'Guardada Correctamente!',
-                text: 'Se ha creado una nueva matrícula',
-                icon: 'success',
-                confirmButtonText: 'Continuar'
+            this.$refs.form.validate()
+            this.todosObligatorios()
+            if (this.estado) {
+                console.log(this.matricula);
+                this.cargando = true
+
+                axios.post('/api/matriculas', this.matricula, {
+                    headers:{
+                        'Content-Type': 'application/json',
+                    }
+                })
+            .then(res =>{
+                
+                if (res.status == 200) {
+                    this.cargando = false
+                    Swal.fire({
+                        title: 'Guardada Correctamente!',
+                    text: 'Se ha creado una nueva matrícula para:'+ res.data.usuario.nombreUsuario,
+                    icon: 'success',
+                    confirmButtonText: 'Continuar'
+                    })
+                    this.$refs.form.reset()
+                }
             })
+            .catch(error=>{
+                console.log(error);
+            })
+        }else{
+            console.log("faltan datos");
+        }
+
+            
         },
         fotoVistaPrevia:function(){
             this.urlimagen = URL.createObjectURL(this.fotoAlumno)
         },
+        todosObligatorios:function(){
+            if(this.matricula.nombreAlumno==""||
+                this.matricula.apellidoPatAlumno==""||
+                this.matricula.apellidoMatAlumno==""||
+                this.matricula.rutAlumno==""||
+                this.matricula.fechaNacimientoAlumno==""||
+                this.matricula.edadAlumno==""||
+                this.matricula.sexoSAlumno==""||
+                this.matricula.nacionalidadAlumno==""||
+                this.matricula.alumnoNuevo==""||
+                this.matricula.nivelMatricula==""|| 
+                this.matricula.emailAlumno==""||
+                this.matricula.direccionAlumno==""||
+                this.matricula.regionAlumno==""||
+                this.matricula.comunaAlumno==""||
+                this.matricula.parentezcoApoderado==""||
+                this.matricula.nombreApoderado==""||
+                this.matricula.apellidoPatApoderado==""||
+                this.matricula.apellidoMatApoderado==""||
+                this.matricula.rutApoderado==""||
+                this.matricula.fechaNacimientoApoderado==""||
+                this.matricula.edadApoderado==""||
+                this.matricula.sexoSApoderado==""||
+                this.matricula.nacionalidadApoderado==""||
+                this.matricula.emailApoderado==""||
+                this.matricula.direccionApoderado==""||
+                this.matricula.regionApoderado==""||
+                this.matricula.comunaApoderado==""||
+                this.matricula.conQuienVive==""||
+                this.matricula.nombreConQuienVive==""||
+                this.matricula.anioAcademico==""
+                ){
+                    console.log("falata algun dato");
+                }else{
+                    this.estado=true
+                }
+        }
     },
+    created() {
+        this.traerniveles()
+        
+        
+    },
+
     computed:{
         edadAlumno:function(){
             let hoy = new Date()
             let cumpleanos = new Date(this.matricula.fechaNacimientoAlumno)
             let edad = hoy-this.matricula.fechaNacimientoAlumno
             let x = hoy.getFullYear() - cumpleanos.getFullYear()
+            this.matricula.edadAlumno = x
             if(isNaN(x)){
                 return "....Esperando Facha Nacimiento"
             }else{
@@ -756,6 +960,7 @@ export default {
             let cumpleanos = new Date(this.matricula.fechaNacimientoApoderado)
             let edad = hoy-this.matricula.fechaNacimientoApoderado
             let x = hoy.getFullYear() - cumpleanos.getFullYear()
+            this.matricula.edadApoderado = x
             if(isNaN(x)){
                 return "....Esperando Facha Nacimiento"
             }else{
@@ -767,6 +972,9 @@ export default {
             }
         }
     },
+    mounted() {
+        
+    },
    
 }
 </script>
@@ -775,5 +983,9 @@ export default {
     /* *{
         border:1px solid
     } */
-
+.carga{
+  /* transform: scale(1.3) */
+  
+   
+}
 </style>
