@@ -21,17 +21,7 @@
           v-model="dialog"
           max-width="500px"
         >
-          <template v-slot:activator="{ on, attrs }">
-            <!-- <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              New Item
-            </v-btn> -->
-          </template>
+          
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -126,13 +116,13 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item.alumno="{ item }">
+    <template v-slot:[`item.alumno`]="{ item }">
       {{item.usuario.nombreUsuario}} {{item.usuario.apellidoPaternoUsuario}} {{item.usuario.apellidoMaternoUsuario}}
     </template>
-    <template v-slot:item.apoderado="{ item }">
+    <template v-slot:[`item.apoderado`]="{ item }">
       {{item.apoderado.usuario.nombreUsuario}} {{item.apoderado.usuario.apellidoPaternoUsuario}} {{item.apoderado.usuario.apellidoMaternoUsuario}}
     </template>
-    <template v-slot:item.actions="{ item }">
+    <!-- <template v-slot:[`item.actions`]="{ item }"> -->
       <!-- <v-icon
         small
         class="mr-2"
@@ -153,15 +143,8 @@
       >
         mdi-pencil
       </v-icon> -->
-    </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
+    <!-- </template> -->
+   
   </v-data-table>
 </template>
 

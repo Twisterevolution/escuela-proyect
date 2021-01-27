@@ -226,7 +226,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .periodo-academico-border{
     border: 1px solid rgb(187, 187, 187);
     border-radius: 5px;

@@ -129,7 +129,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .title-color-bg{
     background-color: gray;

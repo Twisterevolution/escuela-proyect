@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
 
 .zz{
     background-image: url('../assets/presente.jpg');

@@ -63,9 +63,7 @@ export default {
 </script>
 
 <style scoped>
-*{
-    /* border: 1px solid; */
-}
+
 
     .titulo{
         border: 1px solid;

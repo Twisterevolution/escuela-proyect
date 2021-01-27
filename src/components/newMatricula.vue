@@ -694,6 +694,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import regionesx from '../assets/dataApp/comunas-regiones.json'
 import nacionalidades from '../assets/dataApp/nacionalidades.json'
+axios.defaults.baseURL = process.env.VUE_APP_URIAPI;
 
 
 
@@ -983,9 +984,4 @@ export default {
     /* *{
         border:1px solid
     } */
-.carga{
-  /* transform: scale(1.3) */
-  
-   
-}
 </style>
