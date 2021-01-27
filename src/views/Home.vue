@@ -97,7 +97,7 @@ import panel from './PrincipalPanel'
   }
 </script>
 
-<style scoped>
+<style >
 *{
   /* border: 1px solid; */
 }
