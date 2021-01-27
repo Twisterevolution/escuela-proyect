@@ -11,6 +11,7 @@ Vue.use(VueTilt)
 Vue.use(VueMask)
 
 Vue.config.productionTip = false;
+Vue.axios.defaults.baseURL = process.env.VUE_APP_URIAPI;
 
 new Vue({
   router,
