@@ -109,6 +109,7 @@ import matricula from "../components/newMatricula";
 import TablaMatriculas from "../components/tablaMatriculas.vue";
 import TablaMatriculasPorNivel from "../components/tablaMatriculasPorNivel.vue";
 import axios from 'axios';
+axios.defaults.baseURL = process.env.VUE_APP_URIAPI;
 
 
 export default {
@@ -140,12 +141,12 @@ export default {
 		},
 		getanioacademicoapi(){
 			let url = process.env.VUE_APP_URIAPI
-			axios.get(`/api/anioAcademico/searchEstado/1`)
+			axios.get('/api/anioAcademico/searchEstado/1')
 			.then(res=>{
 				this.anio= parseInt( res.data[0].anioAcademicoNumero)
 				this.matdisp= parseInt( res.data[0].cantidadMatriculas)
 				this.idAnioAcademicoActivo = res.data[0].id
-				axios.get(`/api/matriculas`)
+				axios.get('/api/matriculas')
         		.then(res =>{
 					console.log(res.data);
 					this.cargando =false
