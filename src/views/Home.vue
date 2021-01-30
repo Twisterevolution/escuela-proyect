@@ -76,7 +76,7 @@
        
       <v-toolbar-title><v-icon>mdi-school</v-icon> MyCol</v-toolbar-title>
       <v-spacer></v-spacer>
-       <v-toolbar-title>Año Academico: {{elanioNumero[0].anioAcademicoNumero}}</v-toolbar-title>
+       <v-toolbar-title>Año Academico: {{$store.state.anioAcademicoData.anioAcademicoNumero}}</v-toolbar-title>
     </v-app-bar>
 
 <v-main class="pt-2 pt-sm-2 pt-xs-2 pt-md-0 pt-lg-0 pt-xl-0   pl-2 pl-sm-2 pl-xs-2 pl-md-2 pl-lg-2 pl-xl-2">
@@ -95,7 +95,7 @@ import {mapActions} from 'vuex'
     },
     data: () => ({ 
       drawer: false,
-      aniox:"" 
+      aniox: JSON.parse(localStorage.getItem('LSanioAcademicoId'))
       }),
 
     methods: {
@@ -107,7 +107,7 @@ import {mapActions} from 'vuex'
       }
     },
     created() {
-      // this.GETANIOACADEMICODATA()
+      //this.GETANIOACADEMICODATA()
       this.GETNIVELESDATA()
     },
     
