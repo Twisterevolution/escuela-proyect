@@ -14,18 +14,18 @@
 			</thead>
 			<tbody>
 				<tr class="text-center">
-					<td>30</td>
-					<td>15</td>
-					<td>15</td>
-					<td>12</td>
-					<td>40</td>
-					<td>18</td>
-					<td>15</td>
-					<td>23</td>
-					<td>84</td>
-					<td>15</td>
-					<td>15</td>
-					<td>15</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
 				</tr>
 			</tbody>
 		</v-simple-table>
