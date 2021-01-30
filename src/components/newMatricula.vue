@@ -859,6 +859,7 @@ export default {
            this.matricula.comunaApoderado = this.matricula.comunaAlumno
         },
         guardarNuevaMatricula:function(){
+            let self = this
             this.$refs.form.validate()
             this.todosObligatorios()
             if (this.estado) {
@@ -873,7 +874,7 @@ export default {
             .then(res =>{
                 
                 if (res.status == 200) {
-                    this.cargando = false
+                    self.cargando = false
                     Swal.fire({
                         title: 'Guardada Correctamente!',
                     text: 'Se ha creado una nueva matrícula para:'+ res.data.usuario.nombreUsuario,
