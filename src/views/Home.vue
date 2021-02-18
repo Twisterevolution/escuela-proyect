@@ -101,7 +101,7 @@ import {mapActions} from 'vuex'
       }),
 
     methods: {
-      ...mapActions(['GETANIOACADEMICODATA', 'GETNIVELESDATA']),
+      // ...mapActions(['GETANIOACADEMICODATA', 'GETNIVELESDATA']),
       prueba:function(){
         axios.get('api/curso/1')
         .then(res=>{
@@ -116,7 +116,7 @@ import {mapActions} from 'vuex'
     },
     created() {
       //this.GETANIOACADEMICODATA()
-      this.GETNIVELESDATA()
+      // this.GETNIVELESDATA()
     },
     
   }
