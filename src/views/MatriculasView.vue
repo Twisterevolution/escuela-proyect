@@ -60,7 +60,6 @@
 
 		<v-dialog
 			v-model="dialog"
-			scrollable
 			:overlay="false"
 			max-width="1000px"
 			transition="dialog-transition"
@@ -72,34 +71,8 @@
 			></new-matricula>
 		</v-dialog>
 
-		<v-dialog
-			v-model="dialogVerificaAlumno"
-			scrollable
-			:overlay="false"
-			max-width="500px"
-			transition="dialog-transition"
-		>
-			<v-card>
-				<v-card-title primary-title>
-					Verificacion de Alumno
-				</v-card-title>
-				<v-card-text>
-					<v-text-field
-						class="mt-3"
-						name="name"
-						outlined
-						label="RUT ALUMNO"
-						placeholder="xxxxxxxx-x"
-						v-mask="'########-#'"
-						v-model="verificarutalumno"
-						
-					></v-text-field>
-				</v-card-text>
-				<v-card-actions class="mb-5">
-					<v-btn block color="blue darken-4" dark x-large>VERIFICAR</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
+		
+		
 	</v-container>
 </template>
 
@@ -174,3 +147,10 @@ export default {
 	}
 };
 </script>
+<style >
+
+.swal2-popup {
+   font-family : "system-ui", Helvetica, Arial, sans-serif;
+}
+	
+</style>

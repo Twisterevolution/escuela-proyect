@@ -22,13 +22,13 @@
 
 
 
-$body-font-family: 'system-ui';
-$title-font: 'Comfortaa';
+// $body-font-family: 'system-ui';
+// $title-font: 'Comfortaa';
 
-.v-application {
-   font-family: $body-font-family, Helvetica, sans-serif !important ;
+// .v-application {
+//    font-family: $body-font-family, Helvetica, sans-serif !important ;
     
- }
+//  }
 
 
   
