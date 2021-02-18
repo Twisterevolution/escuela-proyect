@@ -103,7 +103,7 @@ import {mapActions} from 'vuex'
     methods: {
       ...mapActions(['GETANIOACADEMICODATA', 'GETNIVELESDATA']),
       prueba:function(){
-        axios.get('/curso/1')
+        axios.get('api/curso/1')
         .then(res=>{
           console.log(res.data);
         })
