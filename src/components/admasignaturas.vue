@@ -12,7 +12,7 @@
 		<v-dialog persistent v-model="dialogEdit" max-width="500px">
 			<v-card>
 				<v-card-title>
-					<span class="headline">EDITAR ASIGNATURA</span>
+					<span class="headline">NUEVA ASIGNATURA</span>
 				</v-card-title>
 
 				<v-card-text>
@@ -20,21 +20,21 @@
 						<v-row>
 							<v-col cols="12" sm="12" md="12">
 								<v-text-field
-									dense
-									outlined
 									v-model="editedItem.nombre"
-									label="NOMBRE ASIGNATURA"
+									label="NOMBRE NUEVA ASIGNATURA"
 								></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="12" md="12">
-								<v-text-field dense outlined label="NIVEL-ASSOCIADO"></v-text-field>
+								<v-select
+									:items="niveles"
+									v-model="nievel"
+									label="NIVEL-ASSOCIADO"
+								></v-select>
 							</v-col>
 							<v-col cols="12" sm="6" md="6">
 								<v-text-field
-									dense
-									outlined
 									v-model="editedItem.codigo"
-									label="CODIGO"
+									label="CODIGO MINEDUC"
 								></v-text-field>
 							</v-col>
 						</v-row>
@@ -42,12 +42,12 @@
 				</v-card-text>
 
 				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" text @click="close">
+					<v-btn color="warning" text @click="close">
 						Cancel
 					</v-btn>
-					<v-btn color="blue darken-1" text @click="saveoedit">
-						Save
+					<v-spacer></v-spacer>
+					<v-btn color="primary" @click="saveoedit">
+						GUARDAR
 					</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -74,8 +74,8 @@ export default {
 				fechaModificacion: null,
 				createdBy: 0,
 				modifiedBy: 0,
-            },
-            defaultItem: {
+			},
+			defaultItem: {
 				nombre: "",
 				codigo: "",
 				fechaModificacion: null,
@@ -121,8 +121,8 @@ export default {
 					.put("/api/asignaturas", this.editedItem, config)
 					.then((res) => {
 						this.dialogEdit = false;
-                        this.traerAsignaturas();
-                        this.editedItem = Object.assign({}, this.defaultItem);
+						this.traerAsignaturas();
+						this.editedItem = Object.assign({}, this.defaultItem);
 					})
 					.catch((error) => {
 						console.log(error);
@@ -132,8 +132,8 @@ export default {
 					.post("/api/asignaturas", this.editedItem, config)
 					.then((res) => {
 						this.dialogEdit = false;
-                        this.traerAsignaturas();
-                        this.editedItem = Object.assign({}, this.defaultItem);
+						this.traerAsignaturas();
+						this.editedItem = Object.assign({}, this.defaultItem);
 					})
 					.catch((error) => {
 						console.log(error);

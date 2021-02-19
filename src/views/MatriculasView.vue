@@ -20,7 +20,7 @@
 		<v-row>
 			<v-col cols="4" class="text-center">
 				<v-btn
-					@click="dialog = true"
+					@click="dialogVerificaAlumno = true"
 					class="my-5"
 					block
 					color="blue darken-4"
@@ -57,7 +57,7 @@
 				></tabla-matriculas>
 			</v-col>
 		</v-row>
-
+<!--SECCION: dialog NUEVA MATRICULA -->
 		<v-dialog
 			v-model="dialog"
 			:overlay="false"
@@ -71,7 +71,60 @@
 			></new-matricula>
 		</v-dialog>
 
-		
+<!-- SECCION: dialog para ingresar rut alumno a verificar -->
+		<v-dialog
+			v-model="dialogVerificaAlumno"
+			persistent :overlay="false"
+			max-width="500px"
+			transition="dialog-transition"
+		>
+		<v-card>
+			<v-card-title primary-title>
+				VERIFICAR RUT ALUMNO
+			</v-card-title>
+			<v-card-text>
+				<v-text-field
+					label="RUT: XXXXXXXX-X"
+					v-mask="'########-#'"
+					v-model="verificarutalumno"
+				></v-text-field>
+			</v-card-text>
+			<v-card-actions>
+				<v-btn color="warning" text @click="dialogVerificaAlumno=false">Cancelar</v-btn>
+				<v-spacer></v-spacer>
+				<v-btn color="success" @click="verificaSituacionAlumnoAMatricular">VERIFICAR</v-btn>
+			</v-card-actions>
+		</v-card>
+			
+		</v-dialog>
+
+<!--SECCION: dialog load verificando alumno -->
+		<v-dialog
+			v-model="verificandoCargando"
+			width="350"
+			max-width="500px"
+			transition="dialog-transition"
+			persistent
+		>
+			<v-card>
+				<v-card-title primary-title>
+					VERIFICANDO RUT ALUMNO
+				</v-card-title>
+				<v-card-text class="text-center">
+					<img
+						src="../assets/book-loader.gif"
+						alt=""
+						width="300"
+						height="220"
+						srcset=""
+						class="carga"
+					/>
+				</v-card-text>
+				<v-card-text>
+					Un momento Porfavor....
+				</v-card-text>
+			</v-card>
+		</v-dialog>
 		
 	</v-container>
 </template>
@@ -81,7 +134,10 @@ import cardDashboardVue from "../components/cardDashboard.vue";
 import matricula from "../components/newMatricula";
 import TablaMatriculas from "../components/tablaMatriculas.vue";
 import TablaMatriculasPorNivel from "../components/tablaMatriculasPorNivel.vue";
+
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 axios.defaults.baseURL = process.env.VUE_APP_URIAPI;
 
 
@@ -97,11 +153,13 @@ export default {
 		return {
 			dialog: false,
 			dialogVerificaAlumno: false,
+			verificandoCargando:false,
+			verificarutalumno:"",
 			cargando:true,
 			anio: 0,
 			matdisp: 0,
 			quedan: 0,
-			verificarutalumno:"",
+			
 			matriculas:[],
 			idAnioAcademicoActivo:0,
 			urlx: process.env.VUE_APP_URIAPI
@@ -132,6 +190,21 @@ export default {
 		},
 		Calcular(){
         
+		},
+		verificaSituacionAlumnoAMatricular: function(){
+			this.verificandoCargando = true
+			setTimeout(() => {
+				this.verificandoCargando = false
+
+				Swal.fire({
+					allowOutsideClick: false,
+					icon: "warning",
+					title: "Matricula ya existe",
+					text: "El alumno consultado ya posee Matricula activa"
+				});
+
+			}, 2000);
+			
 		}
 	},
 	computed:{
