@@ -56,7 +56,7 @@
 										dense
 										@change="fotoVistaPrevia"
 										label="SUBIR FOTO ALUMNO"
-										v-model="fotoAlumno"
+										v-model="matricula.fotoAlumno"
 										filled
 										prepend-icon="mdi-camera"
 									></v-file-input>
@@ -705,7 +705,7 @@ export default {
 			niveles: [],
 			parentezco: ["Papá", "Mamá", "Hermano", "Tío", "Abuelo", "Otro"],
 			comunasx: ["-"],
-			fotoAlumno: null,
+			
 			urlimagen: "",
 			fechaNacimiento: "",
 			regionselecionada: "",
@@ -756,6 +756,7 @@ export default {
 				regionAlumno: "",
 				comunaAlumno: "",
 				curso: 1,
+				fotoAlumno: null,
 
 				parentezcoApoderado: "",
 				otroParentezco: "",

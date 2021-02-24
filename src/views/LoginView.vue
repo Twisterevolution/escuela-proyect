@@ -77,10 +77,10 @@ import { mapActions } from 'vuex'
 export default {
 
 methods: {
-  // ...mapActions(['GETANIOACADEMICODATA'])
+  ...mapActions(['GETANIOACADEMICODATA'])
 },
 created() {
-  // this.GETANIOACADEMICODATA()
+  this.GETANIOACADEMICODATA()
 },
     
 }

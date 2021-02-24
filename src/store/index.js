@@ -16,20 +16,21 @@ export default new Vuex.Store({
     // nivelesMutation (state, payload) {
     //   state.nivelesapp = payload
     // },
-    // addanioacademicovigente(state, payload){
-    //   state.anioAcademicoData = payload
-    // },
+    addanioacademicovigente(state, payload){
+      state.anioAcademicoData = payload
+    },
     // loadProfesores(state, payloadx){
     //   state.profesoresapp = payloadx
     // }
   },
   actions: {
-  //  async GETANIOACADEMICODATA (context){
-  //    let f = await axios.get('/api/anioAcademico/searchEstado/1')
-  //       this.commit('addanioacademicovigente', ...f.data)
-  //       localStorage.setItem("LSanioAcademicoId", JSON.stringify(f.data))
+   async GETANIOACADEMICODATA (context){
+     let f = await axios.get('/api/anio/2021')
+     console.log(f.data);
+        this.commit('addanioacademicovigente', f.data)
+        localStorage.setItem("LSanioAcademicoId", JSON.stringify(f.data))
      
-  //   },
+    },
   //   GETNIVELESDATA(context){
   //     axios.get('/api/niveles')
   //     .then(res=>{
