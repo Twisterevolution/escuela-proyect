@@ -29,7 +29,8 @@
 		<v-row>
 			<v-col md="4" xs="12" class="">
 				<v-btn
-					@click="dialogVerificaAlumno = true"
+					
+					@click="dialog=true"
 					class="my-5"
 					block
 					color="blue darken-4"
@@ -79,8 +80,9 @@
 			max-width="1000px"
 			transition="dialog-transition"
 		>
+		<!-- :idAnioAcademico="idAnioAcademicoActivo"  VOLVER A PONER-->
 			<new-matricula
-				:idAnioAcademico="idAnioAcademicoActivo"
+				:idAnioAcademico="2021"
 				:anio="anio"
 				@cerrarDialogMatricula="dialogMatriculasCerrar"
 			></new-matricula>
@@ -188,7 +190,9 @@ export default {
 		},
 		getanioacademicoapi() {
 			let url = process.env.VUE_APP_URIAPI;
-			axios.get("/api/anioAcademico/searchEstado/1").then((res) => {
+			// axios.get("/api/anioAcademico/searchEstado/1").then((res) => {
+			axios.get("/api/anio/2021").then((res) => {
+				console.log(res.data);
 				this.anio = parseInt(res.data[0].anioAcademicoNumero);
 				this.matdisp = parseInt(res.data[0].cantidadMatriculas);
 				this.idAnioAcademicoActivo = res.data[0].id;

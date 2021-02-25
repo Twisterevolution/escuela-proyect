@@ -121,7 +121,7 @@
 										v-model="matricula.nivelMatricula"
 										:rules="[rules.required]"
 										:items="niveles"
-										item-text="nombreNivel"
+										item-text="nivel"
 										item-value="id"
 									></v-select>
 								</v-col>
@@ -876,7 +876,7 @@ export default {
 				this.cargando = true;
 
 				axios
-					.post("/api/matriculas", this.matricula, {
+					.post("/api/matricula", this.matricula, {
 						headers: {
 							"Content-Type": "application/json",
 						},
