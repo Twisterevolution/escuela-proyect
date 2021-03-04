@@ -1,6 +1,6 @@
 <template>
 	<v-card>
-		<v-form ref="form" v-model="valid" lazy-validation>
+		<v-form ref="form" v-model="valid" >
 			<v-toolbar flat color="primary" dark>
 				<v-toolbar-title>
 					NUEVA MATRÍCULA
@@ -48,7 +48,7 @@
 							<v-row>
 								<v-col class="pa-0 text-center" cols="6">
 									<v-avatar color="grey" size="203">
-										<v-img :src="urlimagen"></v-img>
+										<img :src="fotoUrlMatricula" id="foto" >
 									</v-avatar>
 									<v-file-input
 										class="mt-2"
@@ -122,7 +122,7 @@
 										:rules="[rules.required]"
 										:items="niveles"
 										item-text="nivel"
-										item-value="id"
+										item-value="idnivel"
 									></v-select>
 								</v-col>
 							</v-row>
@@ -158,7 +158,7 @@
 										class="mx-1"
 										outlined
 										label="SEXO *"
-										v-model="matricula.sexoSAlumno"
+										v-model="matricula.sexoAlumno"
 										:items="sexo"
 										item-text="nombre"
 										item-value="id"
@@ -248,53 +248,7 @@
 							<v-row>
 								<v-divider class="mb-5"></v-divider>
 							</v-row>
-							<v-row>
-								<v-col cols="2" class="text-center">
-									<label for="">Pertenece a Pueblo Originario</label>
-								</v-col>
-								<v-col cols="2" justify="center">
-									<v-checkbox label="SI" v-model="matricula.originarioAlumno"></v-checkbox>
-								</v-col>
-								<v-col cols="8">
-									<v-select
-										v-if="matricula.originarioAlumno"
-										dense
-										class=""
-										outlined
-										:items="pueblo"
-										label="Pueblo Originario"
-										v-model="matricula.puebloOriginarioAlumno"
-									></v-select>
-									<h3 class="pt-4" v-if="!matricula.originarioAlumno">
-										No Pertenece a Pueblo Orinario
-									</h3>
-								</v-col>
-							</v-row>
-							<v-row>
-								<v-divider class="mb-5"></v-divider>
-							</v-row>
-							<v-row>
-								<v-col cols="2" class="text-center">
-									<label>Categoría MINEDUC</label>
-								</v-col>
-								<v-col cols="2" justify="center">
-									<v-checkbox label="SI" v-model="matricula.tipoAlumnoCheck"></v-checkbox>
-								</v-col>
-								<v-col>
-									<v-select
-										v-if="matricula.tipoAlumnoCheck"
-										dense
-										class=""
-										outlined
-										:items="tipoAlumno"
-										label="Tipo de Alumno"
-										v-model="matricula.tipoAlumnoSeleccionado"
-									></v-select>
-									<h3 class="pt-4" v-if="!matricula.tipoAlumnoCheck">
-										No tiene Tipo de Alumno Segun Mineduc
-									</h3>
-								</v-col>
-							</v-row>
+
 							<p>
 								Campos señalados con * son obligatorios para poder guardar la nueva matricula
 							</p>
@@ -312,10 +266,12 @@
 									<v-select
 										dense
 										outlined
-										:items="parentezco"
-										v-model="matricula.parentezcoApoderado"
+										:items="parentesco"
+										v-model="matricula.parentescoApoderado"
 										label="Parentesco con el alumno/a"
 										:rules="[rules.required]"
+										item-text="parentesco"
+										item-value="idparentesco"
 									></v-select>
 									<v-text-field
 										dense
@@ -328,12 +284,12 @@
 										:rules="[rules.required]"
 									></v-text-field>
 								</v-col>
-								<v-col v-if="matricula.parentezcoApoderado == 'Otro'">
+								<v-col v-if="matricula.parentescoApoderado == 'Otro'">
 									<v-text-field
 										dense
 										outlined
 										label="Detalle de parentesco con el alumno/a"
-										v-model="matricula.otroParentezco"
+										v-model="matricula.otroParentesco"
 										:rules="[rules.required]"
 									></v-text-field>
 								</v-col>
@@ -400,7 +356,7 @@
 										class="mx-1"
 										outlined
 										label="SEXO *"
-										v-model="matricula.sexoSApoderado"
+										v-model="matricula.sexoApoderado"
 										:items="sexo"
 										item-value="id"
 										item-text="nombre"
@@ -512,7 +468,64 @@
 						</v-card-title>
 						<v-card-text>
 							<v-row>
-								<v-col cols="4">
+								<v-col cols="7" class="">
+									<h3 class="ml-5">El alumno pertenece a pueblo originario</h3>
+								</v-col>
+								<v-col cols="5" >
+									<v-select
+										dense
+										hide-details
+										outlined
+										:items="pueblo"
+										label="Pueblo originario"
+										v-model="matricula.puebloOriginarioAlumno"
+									></v-select>
+								</v-col>
+							</v-row>
+							<v-row>
+								<v-divider class=""></v-divider>
+							</v-row>
+							<v-row>
+								<v-col cols="7" class="">
+									<h3 class="ml-5">Clasificación MINEDUC del alumno</h3>
+								</v-col>
+								<v-col>
+									<v-select
+										dense
+										outlined
+										hide-details
+										:items="tipoAlumno"
+										label="Clasificacion"
+										v-model="matricula.tipoAlumnoSeleccionado"
+									></v-select>
+								</v-col>
+							</v-row>
+							<v-row>
+								<v-divider class=""></v-divider>
+							</v-row>
+
+							<v-row>
+								<v-col cols="7" class="">
+									<h3 class="ml-5">Beca Junaeb</h3>
+								</v-col>
+								<v-col>
+									<v-select
+										dense
+										class=""
+										hide-details
+										:items="becasJunaeb"
+										outlined
+										label="Tipo de Beca *"
+										v-model="matricula.detalleRolJunaeb"
+									></v-select>
+								</v-col>
+							</v-row>
+							<v-row>
+								<v-divider class=""></v-divider>
+							</v-row>
+
+							<v-row>
+								<v-col cols="3">
 									<v-text-field
 										dense
 										class="mx-1"
@@ -537,7 +550,7 @@
 										:rules="[rules.required]"
 									></v-select>
 								</v-col>
-								<v-col cols="4">
+								<v-col cols="5">
 									<v-text-field
 										dense
 										class="mx-1"
@@ -546,33 +559,13 @@
 										label="Nombre con quien vive"
 									></v-text-field>
 								</v-col>
-								<v-col cols="4" class="pt-1 ">
-									<h3 class="text-center d-block">Tiene Rol JUNJI</h3>
-									<v-row class="justify-center">
-										<v-checkbox
-											style="width:40px"
-											class="mt-1 "
-											hide-details
-											label="SI"
-											v-model="matricula.checkRolJunji"
-										></v-checkbox>
-									</v-row>
-								</v-col>
-								<v-col cols="4">
-									<v-text-field
-										dense
-										class="mx-1"
-										outlined
-										label="UN NUMERO O UN NOMBRE DE CLASIFICACION *"
-										v-model="matricula.detalleRolJunji"
-									></v-text-field>
-								</v-col>
+								
 							</v-row>
 							<v-row>
-								<v-divider class="mb-5"></v-divider>
+								<v-divider class=""></v-divider>
 							</v-row>
 							<v-row>
-								<v-col cols="5" class="pt-1 ">
+								<v-col cols="6" class="pt-1 ">
 									<v-row>
 										<v-col cols="6">
 											<h3 class="text-center d-block">Tiene Registro social de hogares</h3>
@@ -591,7 +584,7 @@
 								<v-col cols="3" class="pt-1 ">
 									<v-row class="justify-center">
 										<v-col cols="6">
-											<h3 class="text-center d-block">Conoce el Puntaje</h3>
+											<h3 class="text-center d-block">Conoce Puntaje</h3>
 										</v-col>
 										<v-col cols="6">
 											<v-checkbox
@@ -604,7 +597,7 @@
 										</v-col>
 									</v-row>
 								</v-col>
-								<v-col cols="4" class="pt-5 ">
+								<v-col cols="3" class="pt-5 ">
 									<v-text-field
 										outlined
 										dense
@@ -700,13 +693,13 @@ export default {
 				"Familiar",
 				"Amigo de La familia",
 				"Pensión/Residencia/Internado/Hogar",
-				"Otro",
 			],
 			niveles: [],
-			parentezco: ["Papá", "Mamá", "Hermano", "Tío", "Abuelo", "Otro"],
+			becasJunaeb:["Sin Beca","Beca Indigena", "Beca Presidente de la Republica","Beca Integracion Territorial", "Beca Polimentales", "Beca Practica Tecnico Profecional","Programa de residencia Familiar Estudiantil", "beca Recidencia Insular", "Hogares Junaeb"],
 			comunasx: ["-"],
 			
-			urlimagen: "",
+			fotoUrlMatricula:"../avatar.jpg",
+
 			fechaNacimiento: "",
 			regionselecionada: "",
 			comunaseleccionada: "",
@@ -714,8 +707,10 @@ export default {
 			originarioAlumno: false,
 			tipoAlumnoCheck: false,
 			viveConAlumno: false,
+			parentesco:[],
 
 			pueblo: [
+				"No-Ninguno",
 				"Alacalufe",
 				"Atacameño",
 				"Aimara",
@@ -724,8 +719,6 @@ export default {
 				"Mapuche",
 				"Quechua",
 				"Rapanui",
-				"Ninguno",
-				"Otro",
 			],
 			tipoAlumno: [
 				"Sin Clasificación",
@@ -742,9 +735,9 @@ export default {
 				rutAlumno: "",
 				fechaNacimientoAlumno: "",
 				edadAlumno: "",
-				sexoSAlumno: "",
+				sexoAlumno: "",
 				nacionalidadAlumno: "",
-				alumnoNuevo: "",
+				alumnoNuevo: false,
 				nivelMatricula: "",
 				telefonoAlumno: "",
 				emailAlumno: "",
@@ -757,16 +750,17 @@ export default {
 				comunaAlumno: "",
 				curso: 1,
 				fotoAlumno: null,
+				
 
-				parentezcoApoderado: "",
-				otroParentezco: "",
+				parentescoApoderado: null,
+				otroParentesco: "",
 				nombreApoderado: "",
 				apellidoPatApoderado: "",
 				apellidoMatApoderado: "",
 				rutApoderado: "",
 				fechaNacimientoApoderado: "",
 				edadApoderado: "",
-				sexoSApoderado: "",
+				sexoApoderado: "",
 				nacionalidadApoderado: "",
 				apoderadoViveConAlumno: "",
 				telefonoApoderado: "",
@@ -779,7 +773,7 @@ export default {
 				conQuienVive: "",
 				nombreConQuienVive: "",
 				checkRolJunji: "",
-				detalleRolJunji: "",
+				detalleRolJunaeb: "",
 
 				tieneRsh: "",
 				conocePuntajeRsh: "",
@@ -791,23 +785,32 @@ export default {
 	},
 	methods: {
 		cancelarCreacionMatricula: function() {
+			document.getElementById('foto').src= "../avatar.jpg"
 			this.$refs.form.reset();
+			this.matricula.fotoAlumno = null
 			this.$emit("cerrarDialogMatricula", false);
+			
+		},
+		test(){
+			axios.get(`/api/alumno/${this.matricula.rutAlumno}`)
+			.then()
 		},
 		verificarAlumno: function() {
 			const rutcorrecto = fn.validaRut(this.matricula.rutAlumno);
 
 			if (rutcorrecto) {
-				axios.get(`/api/usuarios/searchRut/${this.matricula.rutAlumno}`).then((res) => {
+				axios.get(`/api/alumno/${this.matricula.rutAlumno}`).then((res) => {
 					console.log(res.data);
-					this.matricula.nombreAlumno = res.data.nombreUsuario;
-					this.matricula.apellidoPatAlumno = res.data.apellidoPaternoUsuario;
-					this.matricula.apellidoMatAlumno = res.data.apellidoMaternoUsuario;
-					this.matricula.fechaNacimientoAlumno = res.data.fechaNacimiento;
+					this.matricula.nombreAlumno = res.data.nombre1;
+					this.matricula.apellidoPatAlumno = res.data.apellido1;
+					this.matricula.apellidoMatAlumno = res.data.apellido2;
+					let solofecha = res.data.fecha_nac;
+					solofecha= solofecha.split(' ')[0]
+					this.matricula.fechaNacimientoAlumno = solofecha;
 					this.matricula.edadAlumno = res.data.edad;
-					this.matricula.sexoSAlumno = res.data.sexo;
+					this.matricula.sexoAlumno = res.data.sexo;
 					this.matricula.nacionalidadAlumno = res.data.nacionalidad;
-					this.matricula.telefonoAlumno = res.data.telefono;
+					this.matricula.telefonoAlumno = res.data.celular;
 					this.matricula.emailAlumno = res.data.email;
 					this.matricula.direccionAlumno = res.data.direccion;
 					this.matricula.regionAlumno = res.data.region;
@@ -825,18 +828,21 @@ export default {
 		verificarUsuarioApoderado: function() {
             const rutcorrecto = fn.validaRut(this.matricula.rutApoderado);
             if (rutcorrecto) {
-			axios.get(`/api/usuarios/searchRut/${this.matricula.rutApoderado}`).then((res) => {
-				this.matricula.nombreApoderado = res.data.nombreUsuario;
-				this.matricula.apellidoPatApoderado = res.data.apellidoPaternoUsuario;
-				this.matricula.apellidoMatApoderado = res.data.apellidoMaternoUsuario;
-				this.matricula.fechaNacimientoApoderado = res.data.fechaNacimiento;
+			axios.get(`/api/apoderado/${this.matricula.rutApoderado}`).then((res) => {
+				console.log(res.data);
+				this.matricula.nombreApoderado = res.data.nombre1;
+				this.matricula.apellidoPatApoderado = res.data.apellido1;
+				this.matricula.apellidoMatApoderado = res.data.apellido2;
+				let solofecha = res.data.fecha_nac;
+				// solofecha= solofecha.split(' ')[0]
+				// this.matricula.fechaNacimientoApoderado = solofecha;
 				// this.matricula.edadApoderado = res.data.edad
-				this.matricula.sexoSApoderado = res.data.sexo;
+				this.matricula.sexoApoderado = res.data.sexo;
 				this.matricula.nacionalidadApoderado = res.data.nacionalidad;
 				this.matricula.direccionApoderado = res.data.direccion;
 				this.matricula.regionApoderado = res.data.region;
 				this.matricula.comunaApoderado = res.data.comuna;
-				this.matricula.telefonoApoderado = res.data.telefono;
+				this.matricula.telefonoApoderado = res.data.celular;
 				this.matricula.emailApoderado = res.data.email;
 				
 			});
@@ -853,6 +859,12 @@ export default {
 			axios.get("/api/niveles").then((res) => {
 				this.niveles = res.data;
 			});
+		},
+		trerparientes(){
+			axios.get('/api/parentesco')
+			.then(res=>{
+				this.parentesco = res.data
+			})
 		},
 		selectComuna: function() {
 			this.comunasx = this.regiones.filter((selec) => selec.region == this.matricula.regionAlumno);
@@ -886,11 +898,13 @@ export default {
 							self.cargando = false;
 							Swal.fire({
 								title: "Guardada Correctamente!",
-								text: "Se ha creado una nueva matrícula para:" + res.data.usuario.nombreUsuario,
+								text: "Se ha creado una nueva matrícula",
 								icon: "success",
 								confirmButtonText: "Continuar",
 							});
-							this.$refs.form.reset();
+						this.functionResetForm()
+						this.$emit("cerrarDialogMatricula", false)
+						
 						}
 					})
 					.catch((error) => {
@@ -900,8 +914,21 @@ export default {
 				console.log("faltan datos");
 			}
 		},
+		
+		
 		fotoVistaPrevia: function() {
-			this.urlimagen = URL.createObjectURL(this.fotoAlumno);
+			if (this.matricula.fotoAlumno==null || this.matricula.fotoAlumno==undefined ) {
+				console.log("es nulo");
+				document.getElementById('foto').src= "../avatar.jpg"
+				
+			}else{
+				console.log("NO es nulo");
+				console.log(this.matricula.fotoAlumno);
+				let imagen = URL.createObjectURL(this.matricula.fotoAlumno);
+				document.getElementById('foto').src= imagen
+				// console.log(this.fotoUrlMatricula);
+			}
+			
 		},
 		todosObligatorios: function() {
 			if (
@@ -911,22 +938,22 @@ export default {
 				this.matricula.rutAlumno == "" ||
 				this.matricula.fechaNacimientoAlumno == "" ||
 				this.matricula.edadAlumno == "" ||
-				this.matricula.sexoSAlumno == "" ||
+				this.matricula.sexoAlumno == "" ||
 				this.matricula.nacionalidadAlumno == "" ||
-				this.matricula.alumnoNuevo == "" ||
+				
 				this.matricula.nivelMatricula == "" ||
 				this.matricula.emailAlumno == "" ||
 				this.matricula.direccionAlumno == "" ||
 				this.matricula.regionAlumno == "" ||
 				this.matricula.comunaAlumno == "" ||
-				this.matricula.parentezcoApoderado == "" ||
+				this.matricula.parentescoApoderado == "" ||
 				this.matricula.nombreApoderado == "" ||
 				this.matricula.apellidoPatApoderado == "" ||
 				this.matricula.apellidoMatApoderado == "" ||
 				this.matricula.rutApoderado == "" ||
 				this.matricula.fechaNacimientoApoderado == "" ||
 				this.matricula.edadApoderado == "" ||
-				this.matricula.sexoSApoderado == "" ||
+				this.matricula.sexoApoderado == "" ||
 				this.matricula.nacionalidadApoderado == "" ||
 				this.matricula.emailApoderado == "" ||
 				this.matricula.direccionApoderado == "" ||
@@ -941,12 +968,71 @@ export default {
 				this.estado = true;
 			}
 		},
+		functionResetForm: function(){
+			this.matricula.nombreAlumno= ""
+				this.matricula.apellidoPatAlumno= ""
+				this.matricula.apellidoMatAlumno= ""
+				this.matricula.rutAlumno= ""
+				this.matricula.fechaNacimientoAlumno= ""
+				this.matricula.edadAlumno= ""
+				this.matricula.sexoAlumno= ""
+				this.matricula.nacionalidadAlumno= ""
+				this.matricula.alumnoNuevo= false
+				this.matricula.nivelMatricula= ""
+				this.matricula.telefonoAlumno= ""
+				this.matricula.emailAlumno= ""
+				this.matricula.originarioAlumno= false
+				this.matricula.puebloOriginarioAlumno= ""
+				this.matricula.tipoAlumnoCheck= false
+				this.matricula.tipoAlumnoSeleccionado= ""
+				this.matricula.direccionAlumno= ""
+				this.matricula.regionAlumno= ""
+				this.matricula.comunaAlumno= ""
+				this.matricula.curso= 1,
+				this.matricula.fotoAlumno= null
+
+				this.matricula.parentescoApoderado= null
+				this.matricula.otroParentesco= ""
+				this.matricula.nombreApoderado= ""
+				this.matricula.apellidoPatApoderado= ""
+				this.matricula.apellidoMatApoderado= ""
+				this.matricula.rutApoderado= ""
+				this.matricula.fechaNacimientoApoderado= ""
+				this.matricula.edadApoderado= ""
+				this.matricula.sexoApoderado= ""
+				this.matricula.nacionalidadApoderado= ""
+				this.matricula.apoderadoViveConAlumno= ""
+				this.matricula.telefonoApoderado= ""
+				this.matricula.emailApoderado= ""
+				this.matricula.direccionApoderado= ""
+				this.matricula.regionApoderado= ""
+				this.matricula.comunaApoderado= ""
+
+				this.matricula.hermanos= 0
+				this.matricula.conQuienVive= ""
+				this.matricula.nombreConQuienVive= ""
+				this.matricula.checkRolJunji= ""
+				this.matricula.detalleRolJunaeb= ""
+
+				this.matricula.tieneRsh= ""
+				this.matricula.conocePuntajeRsh= ""
+				this.matricula.puntajeRsh= ""
+				this.matricula.anioAcademico= this.idAnioAcademico
+				this.matricula.anioAcademicoNumero= this.anio
+				
+				document.getElementById('foto').src= "../avatar.jpg"
+				
+
+				this.$refs.form.resetValidation()
+		},
 	},
 	created() {
 		this.traerniveles();
+		this.trerparientes()
 	},
 
 	computed: {
+		
 		edadAlumno: function() {
 			let hoy = new Date();
 			let cumpleanos = new Date(this.matricula.fechaNacimientoAlumno);

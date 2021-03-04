@@ -21,7 +21,7 @@
 				></card-dashboard>
 			</v-col>
 		</v-row>
-		<v-row>
+		<v-row v-show="false">
 			<v-col cols="12">
 				<tabla-matriculas-por-nivel></tabla-matriculas-por-nivel>
 			</v-col>
@@ -30,7 +30,7 @@
 			<v-col md="4" xs="12" class="">
 				<v-btn
 					
-					@click="dialog=true"
+					@click="dialogVerificaAlumno=true"
 					class="my-5"
 					block
 					color="blue darken-4"
@@ -76,13 +76,13 @@
 		<!--SECCION: dialog NUEVA MATRICULA -->
 		<v-dialog
 			v-model="dialog"
+			persistent
 			:overlay="false"
 			max-width="1000px"
 			transition="dialog-transition"
 		>
-		<!-- :idAnioAcademico="idAnioAcademicoActivo"  VOLVER A PONER-->
 			<new-matricula
-				:idAnioAcademico="2021"
+				:idAnioAcademico="idAnioAcademicoActivo"
 				:anio="anio"
 				@cerrarDialogMatricula="dialogMatriculasCerrar"
 			></new-matricula>
@@ -189,14 +189,13 @@ export default {
 			this.dialog = e;
 		},
 		getanioacademicoapi() {
-			let url = process.env.VUE_APP_URIAPI;
-			// axios.get("/api/anioAcademico/searchEstado/1").then((res) => {
-			axios.get("/api/anio/2021").then((res) => {
+			axios.get("/api/anioActivo").then((res) => {
 				console.log(res.data);
-				this.anio = parseInt(res.data[0].anioAcademicoNumero);
-				this.matdisp = parseInt(res.data[0].cantidadMatriculas);
-				this.idAnioAcademicoActivo = res.data[0].id;
-				axios.get("/api/matriculas").then((res) => {
+				this.anio = parseInt(res.data.anioAcademicoNumero);
+				this.matdisp = parseInt(res.data.cantidadMatriculas);
+				this.idAnioAcademicoActivo = res.data.id;
+				axios.post("/api/getmatricula", {"anioAcademico":1})
+				.then((res) => {
 					console.log(res.data);
 					this.cargando = false;
 					this.matriculas = res.data;
@@ -208,16 +207,32 @@ export default {
 		Calcular() {},
 		verificaSituacionAlumnoAMatricular: function() {
 			this.verificandoCargando = true;
-			setTimeout(() => {
-				this.verificandoCargando = false;
+			let datos = {"anioAcademico":this.idAnioAcademicoActivo, "rutAlumno":this.verificarutalumno}
+			axios.post('/api/getmatricula', datos)
+			.then(res =>{
+				if (res.data.length !== 0) {
+					this.dialogVerificaAlumno = false
+					this.verificandoCargando = false;
+					this.verificarutalumno = ""
+					Swal.fire({
+						allowOutsideClick: false,
+						icon: "warning",
+						title: "Matricula ya existe",
+						text: "El alumno consultado ya posee Matricula activa",
+					});
+				}else{
+					this.dialog= true
+					this.verificandoCargando = false;
+					this.dialogVerificaAlumno = false
+					this.verificarutalumno = ""
+				}
+			})
 
-				Swal.fire({
-					allowOutsideClick: false,
-					icon: "warning",
-					title: "Matricula ya existe",
-					text: "El alumno consultado ya posee Matricula activa",
-				});
-			}, 2000);
+			
+				
+
+				
+			
 		},
 	},
 	computed: {

@@ -117,7 +117,7 @@
       </v-toolbar>
     </template>
     <template v-slot:[`item.alumno`]="{ item }">
-      {{item.usuario.nombreUsuario}} {{item.usuario.apellidoPaternoUsuario}} {{item.usuario.apellidoMaternoUsuario}}
+      {{item.nombre1}} {{item.apellido1}} {{item.apellido2}}
     </template>
     <template v-slot:[`item.apoderado`]="{ item }">
       {{item.apoderado.usuario.nombreUsuario}} {{item.apoderado.usuario.apellidoPaternoUsuario}} {{item.apoderado.usuario.apellidoMaternoUsuario}}
@@ -164,12 +164,12 @@ import axios from 'axios'
           text: 'N°Matricula',
           align: 'start',
           sortable: false,
-          value: 'id',
+          value: 'idmatricula',
         },
         { text: 'Alumno', value: 'alumno' },
-        { text: 'Rut', value: 'usuario.rut' },
-        { text: 'Nivel', value: 'nivel.nombreNivel' },
-        { text: 'Curso', value: 'alumno.curso.nombreCurso' },
+        { text: 'Rut', value: 'rut' },
+        { text: 'Nivel', value: 'nivel' },
+        { text: 'Curso', value: 'curso' },
         // { text: 'Apoderado', value: 'apoderado' },
         // { text: 'Acciones', value: 'actions', sortable: false },
       ],

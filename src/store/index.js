@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 
 Vue.use(Vuex);
-axios.defaults.baseURL = process.env.VUE_APP_URIAPI 
+// axios.defaults.baseURL = process.env.VUE_APP_URIAPI 
 
 export default new Vuex.Store({
 	state: {
@@ -25,7 +25,7 @@ export default new Vuex.Store({
   },
   actions: {
    async GETANIOACADEMICODATA (context){
-     let f = await axios.get('/api/anio/2021')
+     let f = await axios.get('https://api-mycol.herokuapp.com/api/anio/2021')
      console.log(f.data);
         this.commit('addanioacademicovigente', f.data)
         localStorage.setItem("LSanioAcademicoId", JSON.stringify(f.data))
