@@ -26,15 +26,15 @@
 				width="370"
 				elevation="5"
 				class=" mx-1 my-3 d-inline-block"
-				v-for="ready in allCursos"
+				v-for="ready in allCursosPorNivelSeleccionado"
 				:key="ready.id"
 			>
 				<v-row class="">
 					<v-col cols="5" class="ml-3">
-						<h3>{{ ready.nombreCurso }}</h3>
+						<h3>{{ ready.curso }}</h3>
 					</v-col>
 					<v-col cols="6">
-						<v-chip class="" color="primary">Total Alumnos: {{}}</v-chip>
+						<v-chip class="" color="primary">Total Alumnos: {{ready.total}}</v-chip>
 					</v-col>
 				</v-row>
 			</v-card>
@@ -42,21 +42,33 @@
 		<v-col cols="8">
 		<v-card>
 			<v-card-text>
-				<v-row v-for="(x, id) in 8" :key="id" dense >
-				<v-col cols="6" >
+				<v-row v-for="(x, id) in datosTabla" :key="id" dense >
+				<v-col cols="5" >
 				<v-text-field
 					dense
 					outlined
 					hide-details
-					label="Nombre Alumno"
+					:value="x.nombre1 +' '+ x.apellido1"
+					
 				></v-text-field>
 				</v-col>
 
-				<v-col cols="3" >
+				<v-col cols="2" >
 				<v-text-field
 					dense
 					outlined
 					hide-details
+					:value="x.nivel"
+					label="Nivel"
+				></v-text-field>
+				</v-col>
+
+				<v-col cols="2" >
+				<v-text-field
+					dense
+					outlined
+					hide-details
+					:value="x.curso"
 					label="Curso Actual"
 				></v-text-field>
 				</v-col>
@@ -66,8 +78,12 @@
 						dense
 						outlined
 						hide-details
-						:items="cursos"
+						:items="allCursosPorNivelSeleccionado"
+						item-text="curso"
+						item-value="idcurso"
 						label="asignar curso"
+						v-model="datosTabla[id].curso_idcurso"
+
 						@input="total3"
 					></v-select>
 				</v-col>
@@ -77,6 +93,7 @@
 		</v-col>
 		<v-col cols="8">
 			<v-data-table
+				v-if="false"
 				dense
 				:loading="cargandodatos"
 				loading-text="... Un momento porfavor"
@@ -93,7 +110,7 @@
 						outlined
 						class="my-1"
 						hide-details
-						:items="cursos"
+						
 						v-model="item.curso"
 						label="asignar curso"
 						@input="total3"
@@ -101,32 +118,37 @@
 				</template>
 			</v-data-table>
 		</v-col>
+		<loading-component
+			:mostrarDialog="cargandodatos"
+			tituloLoading="Buscando Alumnos"
+		></loading-component>
 	</v-row>
 </template>
 
 <script>
 import axios from "axios";
+import LoadingComponent from './loadingComponent.vue';
+
 export default {
 	name: "asignar-alumno-a-curso",
 	props: {},
+	components:{
+		LoadingComponent
+	},
 	data() {
 		return {
-			cargandodatos: true,
+			xxx:"",
+			cargandodatos: false,
 			cabecera: [
 				{ text: "N°Mat", value: "numeroMatricula" },
-				// { text: "Rut", value: "usuario.rut" },
 				{ text: "Alumno", value: "alumno" },
 				{ text: "Curso asignado", value: "curso", align: "center" },
 				{ text: "asignar", value: "asignar", width: "25%" },
 			],
 			datosTabla: [],
-			cursos: [
-				{ id: 1, text: "1 medio A", value: "1mA", total: 0 },
-				{ id: 2, text: "1 medio B", value: "1mB", total: 0 },
-				{ id: 3, text: "1 medio C", value: "1mC", total: 0 },
-			],
 			nivelesSelec: [],
 			allCursos: [],
+			allCursosPorNivelSeleccionado:[],
 			id_nivelSeleccionado: 0,
 		};
 	},
@@ -153,23 +175,30 @@ export default {
 				anioAcademico: idanioactivo.id,
 				idNivel: this.id_nivelSeleccionado,
 			};
-			console.log(datosBusqueda);
 			this.cargandodatos = true;
-			axios.post("/api/getmatricula", datosBusqueda).then((res) => {
+			axios.post("/api/getmatricula", datosBusqueda)
+			.then((res) => {
 				console.log(res.data);
 				this.datosTabla = res.data;
+				this.allCursosPorNivelSeleccionado = this.allCursos.filter((x)=>{
+					return x.nivel_idnivel == this.id_nivelSeleccionado
+				})
 				this.cargandodatos = false;
+				this.total3()
+				
 			});
+			
 		},
+
 		total3: function() {
-			for (let index = 0; index < this.cursos.length; index++) {
+			for (let index = 0; index < this.allCursosPorNivelSeleccionado.length; index++) {
 				let tot = 0;
 				for (let indexb = 0; indexb < this.datosTabla.length; indexb++) {
-					if (this.datosTabla[indexb].curso == this.cursos[index].value) {
+					if (this.datosTabla[indexb].curso_idcurso == this.allCursosPorNivelSeleccionado[index].idcurso) {
 						tot += 1;
 					}
 				}
-				this.cursos[index].total = tot;
+				 this.allCursosPorNivelSeleccionado[index].total = tot;
 			}
 		},
 		total2: function() {
