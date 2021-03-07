@@ -10,7 +10,8 @@
 				dark
 			>
 				<div
-                    class="title pb-5 " 
+					
+                    class=" pb-5 " 
                     v-text="title" 
                 >
                 </div>

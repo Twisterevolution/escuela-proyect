@@ -8,7 +8,7 @@
 				ASIGNAR ALUMNOS A SUS CURSOS
 			</h2>
 		</v-col>
-		<v-col cols="4" class="br-secction">
+		<v-col cols="12" md="4"  class="br-secction ">
 			<h3>selecciona un nivel</h3>
 
 			<v-select
@@ -45,7 +45,7 @@
 				</v-row>
 			</v-card>
 		</v-col>
-		<v-col cols="8">
+		<v-col cols="12" md="8">
 			<v-card>
 				<v-card-text>
 					<v-row v-for="(x, id) in datosTabla" :key="id" dense>
@@ -54,6 +54,7 @@
 								dense
 								outlined
 								hide-details
+								readonly
 								:value="x.nombre1 + ' ' + x.apellido1"
 							></v-text-field>
 						</v-col>
@@ -63,6 +64,7 @@
 								dense
 								outlined
 								hide-details
+								readonly
 								:value="x.nivel"
 								label="Nivel"
 							></v-text-field>
@@ -73,6 +75,7 @@
 								dense
 								outlined
 								hide-details
+								readonly
 								:value="x.curso"
 								label="Curso Actual"
 							></v-text-field>

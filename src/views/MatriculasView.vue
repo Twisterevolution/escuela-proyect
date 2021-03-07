@@ -10,7 +10,7 @@
 			</v-col>
 			<v-col>
 				<card-dashboard
-					title="Matrículas Año Académico"
+					title="Matrículas Periodo"
 					:datogeneral="matdisp"
 				></card-dashboard>
 			</v-col>
