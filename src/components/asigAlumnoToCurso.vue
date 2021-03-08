@@ -215,7 +215,13 @@ export default {
 		},
 		guardarAsignacionCursos: function() {
 			this.dialogLoadingAsignacionCursos= true
-			axios.post("/api/asignacurso", this.datosTabla).then((res) => {
+			axios.post("/api/asignacurso", this.datosTabla,{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+			
+			).then((res) => {
 				this.dialogLoadingAsignacionCursos = false 
 			});
 			this.datosTabla = []

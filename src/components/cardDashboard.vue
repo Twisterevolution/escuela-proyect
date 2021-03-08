@@ -11,7 +11,7 @@
 			>
 				<div
 					
-                    class=" pb-5 " 
+                    class="title pb-5 " 
                     v-text="title" 
                 >
                 </div>
