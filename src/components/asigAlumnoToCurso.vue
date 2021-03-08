@@ -200,6 +200,7 @@ export default {
 			};
 			this.cargandodatos = true;
 			this.muestraBotonGuardar = true
+			console.log(datosBusqueda);
 			axios.post("/api/getmatricula", datosBusqueda)
 			.then((res) => {
 				this.datosTabla = res.data;

@@ -84,6 +84,7 @@
 			<new-matricula
 				:idAnioAcademico="idAnioAcademicoActivo"
 				:anio="anio"
+				:rutVerificado="verificarutalumno"
 				@cerrarDialogMatricula="dialogMatriculasCerrar"
 			></new-matricula>
 		</v-dialog>
@@ -154,6 +155,7 @@ import cardDashboardVue from "../components/cardDashboard.vue";
 import matricula from "../components/newMatricula";
 import TablaMatriculas from "../components/tablaMatriculas.vue";
 import TablaMatriculasPorNivel from "../components/tablaMatriculasPorNivel.vue";
+import fn from "../assets/jsapp/myFunc";
 
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -206,27 +208,35 @@ export default {
 		},
 		Calcular() {},
 		verificaSituacionAlumnoAMatricular: function() {
-			this.verificandoCargando = true;
-			let datos = {"anioAcademico":this.idAnioAcademicoActivo, "rutAlumno":this.verificarutalumno}
-			axios.post('/api/getmatricula', datos)
-			.then(res =>{
-				if (res.data.length !== 0) {
-					this.dialogVerificaAlumno = false
-					this.verificandoCargando = false;
-					this.verificarutalumno = ""
-					Swal.fire({
-						allowOutsideClick: false,
-						icon: "warning",
-						title: "Matricula ya existe",
-						text: "El alumno consultado ya posee Matricula activa",
-					});
-				}else{
-					this.dialog= true
-					this.verificandoCargando = false;
-					this.dialogVerificaAlumno = false
-					this.verificarutalumno = ""
-				}
-			})
+			if(fn.validaRut(this.verificarutalumno)){
+				this.verificandoCargando = true;
+				let datos = {"anioAcademico":this.idAnioAcademicoActivo, "rutAlumno":this.verificarutalumno}
+				axios.post('/api/getmatricula', datos)
+				.then(res =>{
+					if (res.data.length !== 0) {
+						this.dialogVerificaAlumno = false
+						this.verificandoCargando = false;
+						this.verificarutalumno = ""
+						Swal.fire({
+							allowOutsideClick: false,
+							icon: "warning",
+							title: "Matricula ya existe",
+							text: "El alumno consultado ya posee Matricula activa",
+						});
+					}else{
+						this.dialog= true
+						this.verificandoCargando = false;
+						this.dialogVerificaAlumno = false
+						//this.verificarutalumno = ""
+					}
+				})
+			}else{
+				Swal.fire({
+					allowOutsideClick: false,
+					icon: "error",
+					title: "RUT INVALIDO",
+				});
+			}
 
 			
 				

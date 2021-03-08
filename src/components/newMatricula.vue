@@ -664,6 +664,7 @@ export default {
 	props: {
 		idAnioAcademico: Number,
 		anio: Number,
+		rutVerificado: String
 	},
 	data() {
 		return {
@@ -732,7 +733,7 @@ export default {
 				nombreAlumno: "",
 				apellidoPatAlumno: "",
 				apellidoMatAlumno: "",
-				rutAlumno: "",
+				rutAlumno: this.rutVerificado,
 				fechaNacimientoAlumno: "",
 				edadAlumno: "",
 				sexoAlumno: "",
@@ -800,21 +801,23 @@ export default {
 
 			if (rutcorrecto) {
 				axios.get(`/api/alumno/${this.matricula.rutAlumno}`).then((res) => {
-					console.log(res.data);
-					this.matricula.nombreAlumno = res.data.nombre1;
-					this.matricula.apellidoPatAlumno = res.data.apellido1;
-					this.matricula.apellidoMatAlumno = res.data.apellido2;
-					let solofecha = res.data.fecha_nac;
-					solofecha= solofecha.split(' ')[0]
-					this.matricula.fechaNacimientoAlumno = solofecha;
-					this.matricula.edadAlumno = res.data.edad;
-					this.matricula.sexoAlumno = res.data.sexo;
-					this.matricula.nacionalidadAlumno = res.data.nacionalidad;
-					this.matricula.telefonoAlumno = res.data.celular;
-					this.matricula.emailAlumno = res.data.email;
-					this.matricula.direccionAlumno = res.data.direccion;
-					this.matricula.regionAlumno = res.data.region;
-					this.matricula.comunaAlumno = res.data.comuna;
+					if (res.data!=null) {
+						console.log(res.data);
+						this.matricula.nombreAlumno = res.data.nombre1;
+						this.matricula.apellidoPatAlumno = res.data.apellido1;
+						this.matricula.apellidoMatAlumno = res.data.apellido2;
+						let solofecha = res.data.fecha_nac;
+						solofecha= solofecha.split(' ')[0]
+						this.matricula.fechaNacimientoAlumno = solofecha;
+						this.matricula.edadAlumno = res.data.edad;
+						this.matricula.sexoAlumno = res.data.sexo;
+						this.matricula.nacionalidadAlumno = res.data.nacionalidad;
+						this.matricula.telefonoAlumno = res.data.celular;
+						this.matricula.emailAlumno = res.data.email;
+						this.matricula.direccionAlumno = res.data.direccion;
+						this.matricula.regionAlumno = res.data.region;
+						this.matricula.comunaAlumno = res.data.comuna;
+					}
 				});
 			} else {
 				Swal.fire({
@@ -1028,7 +1031,8 @@ export default {
 	},
 	created() {
 		this.traerniveles();
-		this.trerparientes()
+		this.trerparientes();
+		this.verificarAlumno();
 	},
 
 	computed: {
