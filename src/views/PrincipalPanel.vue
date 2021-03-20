@@ -38,6 +38,7 @@ export default {
 		return {
 			infocards: [
 				{ name: "MATRÍCULAS", ruta: "matriculas" },
+				{ name: "ASITENCIAS", ruta: "/asistencia" },
 				{ name: "LIBRO DE CLASES", ruta: "cursos" },
 				{ name: "PROCEDIMIENTOS", ruta: "procedimientos" },
 				// { name: "PROFESORES", ruta: "about" },

@@ -15,6 +15,8 @@ Vue.use(VueMask)
 
 Vue.config.productionTip = false;
 
+store.dispatch('GETANIOACADEMICODATA')
+store.dispatch('GETNIVELESDATA')
 
 new Vue({
   router,

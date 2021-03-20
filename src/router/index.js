@@ -11,6 +11,11 @@ const routes = [
 		component: () => import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
 	},
 	{
+		path: "/asistencia",
+		name: "Asistencia",
+		component: () => import(/* webpackChunkName: "asistencia" */ "../views/AsistenciaView.vue"),
+	},
+	{
 		path: "/home",
 		name: "Home",
 		component: Home,
@@ -94,12 +99,18 @@ const routes = [
 		// which is lazy-loaded when the route is visited.
 		component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
 	},
+	
 ];
+
 
 const router = new VueRouter({
 	mode: "history",
 	base: process.env.BASE_URL,
 	routes,
+	scrollBehavior (to, from, savedPosition) {
+		return {x:0, y:0}
+	}
+
 });
 
 export default router;

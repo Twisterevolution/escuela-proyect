@@ -13,9 +13,9 @@ export default new Vuex.Store({
     
   },
   mutations: {
-    // nivelesMutation (state, payload) {
-    //   state.nivelesapp = payload
-    // },
+    nivelesMutation (state, payload) {
+      state.nivelesapp = payload
+    },
     addanioacademicovigente(state, payload){
       state.anioAcademicoData = payload
     },
@@ -31,12 +31,12 @@ export default new Vuex.Store({
         localStorage.setItem("LSanioAcademicoId", JSON.stringify(f.data))
      
     },
-  //   GETNIVELESDATA(context){
-  //     axios.get('/api/niveles')
-  //     .then(res=>{
-  //       this.commit('nivelesMutation', res.data)
-  //     })
-  //   },
+    GETNIVELESDATA(context){
+      axios.get('/api/niveles')
+      .then(res=>{
+        this.commit('nivelesMutation', res.data)
+      })
+    },
   //   GETPROFESORESDATA(context){
   //     axios.get('/api/profesores')
   //     .then(res=>{
