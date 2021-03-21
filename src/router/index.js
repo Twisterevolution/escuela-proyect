@@ -14,6 +14,19 @@ const routes = [
 		path: "/asistencia",
 		name: "Asistencia",
 		component: () => import(/* webpackChunkName: "asistencia" */ "../views/AsistenciaView.vue"),
+		children:[
+			
+		]
+	},
+	{
+		path: "/asistencia/pasarasistencia",
+		name: "PasarAsistencia",
+		component: () => import(/* webpackChunkName: "pasarasistencia" */ "../components/asistenciaComponents/pasarAsistencia.vue"),
+	},
+	{
+		path: "/asistencia/buscarasistencia",
+		name: "BuscarAsistencia",
+		component: () => import(/* webpackChunkName: "pasarasistencia" */ "../components/asistenciaComponents/buscarAsistencia.vue"),
 	},
 	{
 		path: "/home",
