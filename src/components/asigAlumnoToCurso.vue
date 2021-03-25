@@ -144,6 +144,8 @@
 import axios from "axios";
 import LoadingComponent from "./loadingComponent.vue";
 
+axios.defaults.baseURL = process.env.VUE_APP_URIAPI;
+
 export default {
 	name: "asignar-alumno-a-curso",
 	props: {},

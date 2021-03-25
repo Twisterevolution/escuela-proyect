@@ -178,6 +178,8 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+axios.defaults.baseURL = process.env.VUE_APP_URIAPI;
+
 export default {
   name: "pasar-asitencia",
   data() {
