@@ -81,7 +81,7 @@
                   <v-btn
                     :disabled="!buscarValid"
                     @click="traerAlumnosCurso"
-                    color="secondary"
+                    color="primary"
                     class="white--text"
                     block
                     large

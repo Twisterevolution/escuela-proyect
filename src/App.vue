@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar dense app class="bandera" color="deep-purple lighten-1" dark>
+     <v-app-bar dense app class="bandera" color="navBarpersonal" dark><!--"deep-purple lighten-1" -->
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <v-icon>mdi-school</v-icon>MyCol
+        <v-icon left>mdi-school</v-icon>MyCol
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-title >Año Academico:{{$store.state.anioAcademicoData.anioAcademicoNumero}} </v-toolbar-title> <!--{{aniox.anioAcademicoNumero}} -->

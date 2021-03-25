@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
     nivelesapp:[],
+    cursosapp:[],
     profesoresapp:[],
     anioAcademicoData:{}
     
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     // loadProfesores(state, payloadx){
     //   state.profesoresapp = payloadx
     // }
+    cursosMutation(state, payload){
+      state.cursosapp = payload
+    }
   },
   actions: {
    async GETANIOACADEMICODATA (context){
@@ -29,6 +33,7 @@ export default new Vuex.Store({
      console.log(f.data);
         this.commit('addanioacademicovigente', f.data)
         localStorage.setItem("LSanioAcademicoId", JSON.stringify(f.data))
+        this.dispatch('GETCURSOSDATA',f.data.anioAcademicoNumero)
      
     },
     GETNIVELESDATA(context){
@@ -45,7 +50,14 @@ export default new Vuex.Store({
   //       })
   //       this.commit('loadProfesores', resultado)
   //     })
-  //   }
+  //   },
+    GETCURSOSDATA(contex, payload){
+      let anioNumero = payload      
+      axios.get('/api/cursosanio/'+ anioNumero)
+      .then(res=>{
+        this.commit('cursosMutation', res.data)
+      })
+    }
   },
 
 });

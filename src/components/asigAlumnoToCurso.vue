@@ -2,8 +2,8 @@
 	<v-row>
 		<v-col cols="12" class="text-start title-color-bg ">
 			<h2 class="title-color-bg white--text">
-				<v-btn class="btnseparate" color="success" to="./matriculas"
-					>VOLVER</v-btn
+				<v-btn class="btnseparate" color="warning" outlined dark to="./matriculas"
+					> <v-icon left>mdi-arrow-left-circle</v-icon>VOLVER</v-btn
 				>
 				ASIGNAR ALUMNOS A SUS CURSOS
 			</h2>
@@ -38,7 +38,7 @@
 						<h3>{{ ready.curso }}</h3>
 					</v-col>
 					<v-col cols="6">
-						<v-chip class="" color="primary"
+						<v-chip class="" color="info"
 							>Total Alumnos: {{ ready.total }}</v-chip
 						>
 					</v-col>

@@ -16,9 +16,13 @@ export default new Vuetify({
           secondary: '#0d91a1', //  #424242
           accent: '#82B1FF',
           error: '#FF5252',
-          info: '#2196F3',
+          info: '#436EB0',             //#2196F3
           success: '#4CAF50',
           warning: '#FB8C00',
+          informacion:'#a1670d',
+
+          navBarpersonal:'09316E',
+
           //#0d47a1
           //#0d91a1
           //#1d0da1
