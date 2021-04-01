@@ -114,11 +114,90 @@
                 dense
                 :headers="cabecerasTabla" 
                 :items="asistenciaResumenTodosLosAlumnos"
-            ></v-data-table>
+            >
+            <template v-slot:item.acciones={item} >
+              <v-btn color="primary" x-small @click="verDetalleAsistenciaAlumno(item)">
+              <v-icon left>mdi-eye</v-icon>detalle
+              </v-btn>
+            </template>
+            </v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+    <v-dialog
+      v-model="dialogVerDetalleAlumno"
+      persistent 
+      :overlay="false"
+      max-width="500px"
+      transition="dialog-transition"
+    >
+    <v-card>
+      <v-card-title class="info white--text">
+        Detalle Asistencia Juan Perez
+      </v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col class="text-center">
+            <v-progress-circular
+              :rotate="270"
+              :size="100"
+              :width="15"
+              :value="78"
+              color="teal"
+            >
+             78%
+            </v-progress-circular>
+            <P class="mt-3">ASISTENCIA ACTUAL</P>
+
+          </v-col>
+           <v-col class="text-center">
+            <v-progress-circular
+              :rotate="270"
+              :size="100"
+              :width="15"
+              :value="10"
+              color="warning"
+              >
+              10%
+            </v-progress-circular>
+            <P class="mt-3">RETIROS ANTICIPADOS</P>
+          </v-col>
+          <v-col class="text-center">
+            <v-progress-circular
+              :rotate="270"
+              :size="100"
+              :width="15"
+              :value="28"
+              color="red"
+              >
+              28%
+            </v-progress-circular>
+            <P class="mt-3">ATRASOS DEL PERIODO</P>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-data-table
+             dense
+                :headers="cabecerasTablaDetalle" 
+                :items="asistenciaResumenAlumno"
+            >
+              
+            </v-data-table>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn @click="dialogVerDetalleAlumno = false" color="warning" text outlined>CERRAR</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="secondary"> <v-icon left>mdi-printer</v-icon> IMPRIMIR</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="primary"><v-icon left>mdi-at</v-icon> NOTIFICAR POR EMAIL</v-btn>
+      </v-card-actions>
+    </v-card>
+      
+    </v-dialog>
   </v-container>
 </template>
 
@@ -129,6 +208,7 @@ export default {
   name: "buscar-asistencia",
   data() {
     return {
+      dialogVerDetalleAlumno:false,
       buscarPorCurso:false,
       buscarPorAlumno:false,
       anioNumero: null,
@@ -146,12 +226,22 @@ export default {
           { text: "Dias Ausente"},
           { text: "Dias de Atrasos"},
           { text: "Dias Licencia"},
-          {text: "acciones"}
+          {text: "acciones", value: "acciones"}
 
-          ]
+          ],
+          cabecerasTablaDetalle: [
+          { text: "Fecha"},
+          { text: "Estado"}
+
+          ],
+          
     };
   },
   methods: {
+    verDetalleAsistenciaAlumno: function(detalle){
+      this.dialogVerDetalleAlumno = true
+      
+    },
     traerTodosLosAlumnos: function() {
       let datosConsultar = {
         anioAcademico: this.$store.state.anioAcademicoData.id

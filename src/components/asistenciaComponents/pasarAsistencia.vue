@@ -58,7 +58,7 @@
                     v-model="dateFormatted"
                     label="Fecha"
                     @blur="date = parseDate(dateFormatted)"
-                    persistent-hint
+                   
                     prepend-icon="mdi-calendar"
                     v-bind="attrs"
                     v-on="on"
@@ -187,7 +187,7 @@ export default {
       overlay: false,
       letrasView: false,
       buscarValid: true,
-      date: new Date().toISOString().substr(0, 10),
+      date: "",
       dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       menu1: false,
       menu2: false,
@@ -229,6 +229,7 @@ export default {
       this.letrasView = false;
       this.setAsistencia.asistentes = [];
       this.overlay = true;
+      this.date =  new Date().toISOString().substr(0, 10)
       axios.get("/api/cursos").then(res => {
         this.letrasView = true;
         let cursosFilatrados = res.data.filter(x => {
@@ -282,21 +283,23 @@ export default {
       });
     },
     guardarAsistencia: function() {
-      console.log(this.setAsistencia);
+      
+      this.overlay = true
 
       axios
         .post("/api/tomarasistencia", { setAsistencia: this.setAsistencia })
         .then(res => {
-          console.log(res.data);
+         
           if (true) {
             this.setAsistencia.asistentes = [];
             this.$refs.buscarcurso.reset();
             Swal.fire({
               allowOutsideClick: false,
               icon: "success",
-              title: "Asistencia Guardada",
+              title: `Asistencia ${res.data.nivel} ${res.data.curso} Guardada`,
               text: "Exito"
             });
+            this.overlay = false
           }
         });
     },
@@ -322,7 +325,6 @@ export default {
   watch: {
     date(val) {
       this.setAsistencia.sesion.fecha = this.date;
-
       this.dateFormatted = this.formatDate(this.date);
     }
   },

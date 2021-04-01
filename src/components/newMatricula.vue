@@ -967,6 +967,12 @@ export default {
 				this.matricula.anioAcademico == ""
 			) {
 				console.log("falata algun dato");
+				Swal.fire({
+					allowOutsideClick: false,
+					icon: "error",
+					title: "Faltan datos a completar",
+					text: "revisa los campos del formulario"
+				});
 			} else {
 				this.estado = true;
 			}
