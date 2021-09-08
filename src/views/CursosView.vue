@@ -454,6 +454,3 @@ td .v-input--checkbox{
 
 
 </style>
-<style lang="sass">
-    @import 'src/sass/variables.scss'
-</style>
